@@ -36,8 +36,21 @@ export type FocusedProgram =
   | ProgramSessionMissMinutes
 ;
 
+enum Orienation {
+  Landscape = 'Landscape',
+  Portrait = 'Portrait',
+}
+
 export interface State {
   ui: {
+    tempac: {
+      // all in px
+      orientation: Orienation,
+      height: number;
+      width: number;
+      fontSize: number;
+    }
+
     isFrozen: boolean;
     clicks: number,
     focused: null | FocusedProgram;
@@ -64,6 +77,12 @@ export interface State {
 
 export const initialState: State = {
   ui: {
+    tempac: {
+      orientation: Orienation.Portrait,
+      height: 100,
+      width: 100,
+      fontSize: 16,
+    },
     isFrozen: false,
     clicks: 0,
     focused: null,

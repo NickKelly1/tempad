@@ -25,4 +25,14 @@ export const reducer = createReducer(initialState, (builder) => {
     state.ui.menu.byId[menuItemId].disabled = !value;
   });
 
+  builder.addCase(actions.resize, (state, action) => {
+    const { payload } = action;
+    const { height, width } = payload;
+    state.ui.tempac.height = height;
+    state.ui.tempac.width = width;
+    // (width / 23 seems) to give a good, size
+    // TODO: scale with height if orientation is flipped
+    state.ui.tempac.fontSize = Math.round(width / 23);
+  });
+
 });

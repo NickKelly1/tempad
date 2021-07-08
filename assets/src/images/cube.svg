@@ -19,26 +19,17 @@
   <defs
      id="defs2">
     <filter
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Blur"
-       id="filter1622">
-      <feGaussianBlur
-         stdDeviation="2 2"
-         result="blur"
-         id="feGaussianBlur1620" />
-    </filter>
-    <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter885"
-       x="-0.025846153"
-       width="1.0516923"
-       y="-0.022400001"
-       height="1.0448">
+       id="filter1436"
+       x="-0.026999999"
+       width="1.054"
+       y="-0.021600001"
+       height="1.0432">
       <feGaussianBlur
          inkscape:collect="always"
-         stdDeviation="1.1853333"
-         id="feGaussianBlur887" />
+         stdDeviation="1.143"
+         id="feGaussianBlur1438" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -48,9 +39,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="602.64364"
-     inkscape:cy="8.0783579"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="374.42845"
+     inkscape:cy="270.4071"
      inkscape:document-units="px"
      inkscape:current-layer="layer5"
      showgrid="true"
@@ -61,10 +52,12 @@
      inkscape:window-maximized="1"
      units="px"
      inkscape:snap-grids="true"
-     inkscape:snap-page="false"
-     inkscape:object-paths="true"
-     inkscape:snap-smooth-nodes="true"
-     showguides="false">
+     inkscape:snap-page="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true">
     <inkscape:grid
        type="xygrid"
        id="grid940"
@@ -103,12 +96,12 @@
      id="layer5"
      inkscape:label="Content">
     <path
-       id="path863"
-       style="fill:#c87137;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 16.933333,131.23333 16.93334,-8.46667 v -4.23333 h -4.23334 L 12.700003,127 v 4.23333 z m 88.899997,0 16.93334,-8.46667 v -4.23333 h -4.23334 L 101.6,127 v 4.23333 z m 0,-114.299997 16.93334,-8.4666671 V 4.2333327 h -4.23334 L 101.6,12.699999 v 4.233334 z m -88.899997,0 16.933333,-8.466667 V 4.2333328 H 29.633333 L 12.7,12.699999 v 4.233334 z m 12.7,-12.7000003 V 122.76666 H 122.76667 V 4.2333327 Z M 33.866666,8.466666 H 118.53333 V 118.53333 H 33.866666 Z M 12.7,12.7 v 118.53333 h 93.13333 V 12.7 Z m 4.233333,4.233333 H 101.6 V 127 H 16.933333 Z" />
+       id="path1423"
+       style="fill:none;stroke:#c87137;stroke-width:4.23333328;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 101.6,131.23333 16.93333,-12.70001 m -101.599997,12.70001 16.933333,-12.7 M 101.6,16.933333 118.53333,4.2333327 M 16.933333,131.23333 V 16.933333 H 101.60001 V 131.23333 Z m 16.933333,-12.7 V 4.2333327 H 118.53334 V 118.53333 Z M 16.933333,16.933333 33.866666,4.2333328" />
     <path
-       d="m 16.933333,131.23333 16.93334,-8.46667 v -4.23333 h -4.23334 L 12.700003,127 v 4.23333 z m 88.899997,0 16.93334,-8.46667 v -4.23333 h -4.23334 L 101.6,127 v 4.23333 z m 0,-114.299997 16.93334,-8.4666671 V 4.2333327 h -4.23334 L 101.6,12.699999 v 4.233334 z m -88.899997,0 16.933333,-8.466667 V 4.2333328 H 29.633333 L 12.7,12.699999 v 4.233334 z m 12.7,-12.7000003 V 122.76666 H 122.76667 V 4.2333327 Z M 33.866666,8.466666 H 118.53333 V 118.53333 H 33.866666 Z M 12.7,12.7 v 118.53333 h 93.13333 V 12.7 Z m 4.233333,4.233333 H 101.6 V 127 H 16.933333 Z"
-       style="fill:#c87137;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter885)"
-       id="path875" />
+       d="m 101.6,131.23333 16.93333,-12.70001 m -101.599997,12.70001 16.933333,-12.7 M 101.6,16.933333 118.53333,4.2333327 M 16.933333,131.23333 V 16.933333 H 101.60001 V 131.23333 Z m 16.933333,-12.7 V 4.2333327 H 118.53334 V 118.53333 Z M 16.933333,16.933333 33.866666,4.2333328"
+       style="fill:none;stroke:#c87137;stroke-width:4.23333328;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter1436)"
+       id="path1426" />
   </g>
 </svg>

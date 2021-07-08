@@ -21,32 +21,26 @@ interface ThunkApiConfig {
 }
 
 export namespace actions {
-  enum Type {
-    SetFrozen = 'SetFrozen',
-    SetCurrentProgram = 'SetCurrentProgram',
-    SingleClickedProgram = 'SingleClickedProgram',
-    DoubleClickedProgram = 'DoubleckedProgram',
-    RequestActivateProgram = 'RequestActivateProgram',
-    SetMenuOptionEnabled = 'SetMenuOptionEnabled',
-  }
-
-  export const setFrozen = createAction<{ value: boolean }>(Type.SetFrozen);
+  export const setFrozen = createAction<{ value: boolean }>('SetFrozen');
   export type SetFrozen = ReturnType<typeof setFrozen>;
 
-  export const setCurrentProgram = createAction<FocusedProgram>(Type.SetCurrentProgram);
+  export const setCurrentProgram = createAction<FocusedProgram>('SetCurrentProgram');
   export type SetCurrentProgram = ReturnType<typeof setCurrentProgram>;
 
-  export const singleClickProgram = createAction<{ programId: ProgramId }>(Type.SingleClickedProgram);
+  export const singleClickProgram = createAction<{ programId: ProgramId }>('SingleClickedProgram');
   export type SingleClickProgram = ReturnType<typeof singleClickProgram>;
 
-  export const doubleClickProgram = createAction<{ programId: ProgramId }>(Type.DoubleClickedProgram);
+  export const doubleClickProgram = createAction<{ programId: ProgramId }>('DoubleClickedProgram');
   export type DoubleClickProgram = ReturnType<typeof doubleClickProgram>;
 
-  export const requestActivateProgram = createAction<{ programId: ProgramId }>(Type.RequestActivateProgram);
+  export const requestActivateProgram = createAction<{ programId: ProgramId }>('RequestActivateProgram');
   export type RequestActivateProgram = ReturnType<typeof requestActivateProgram>;
 
-  export const setMenuOptionEnabled = createAction<{ menuItemId: MenuItemId, value: boolean }>(Type.SetMenuOptionEnabled);
+  export const setMenuOptionEnabled = createAction<{ menuItemId: MenuItemId, value: boolean }>('SetMenuOptionEnabled');
   export type SetMenuOptionEnabled = ReturnType<typeof setMenuOptionEnabled>;
+
+  export const resize = createAction<{ height: number, width: number, }>('Resize');
+  export type Resize = ReturnType<typeof resize>;
 }
 
 

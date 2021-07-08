@@ -1,6 +1,6 @@
 import styles from './Tempac.module.scss'
-import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { selector } from '../../../store/selector';
 import { ProgramId } from '../../../store/state';
@@ -9,10 +9,50 @@ import { ProgramOption } from '../ProgramOption/ProgramOption';
 import { TempacProps } from './Tempac.types';
 import { Menu } from '../Menu/Menu';
 import Head from 'next/head';
+import { actions } from '../../../store/action';
 
+
+const aspectRatio = 19 / 6;
 
 const Tempac: FC<TempacProps> = () => {
   const ui = useSelector(selector.ui);
+
+  const pageRef = useRef<HTMLElement>();
+  const outerFrameRef = useRef<HTMLElement>();
+  const innerFrameRef = useRef<HTMLElement>();
+  const tempacRef = useRef<HTMLElement>();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.addEventListener('rsize', handleResie);
+    return () => window.removeEventListener('resie', handleResie);
+
+    function handleResie() {
+      if (!innerFrameRef.current) return;
+
+      // maintain aspect ratio of tempac
+      const maxDimensions = innerFrameRef.current.getBoundingClientRect();
+
+      const maxHeight = maxDimensions.height;
+      const maxWidth = maxDimensions.width;
+
+      // modify width to maintain aspect ratio
+      const nextWidth = (1 / aspectRatio) * maxHeight;
+      let fin_height: number;
+      let fin_width: number;
+      if (nextWidth <= maxWidth) {
+        fin_height = maxHeight;
+        fin_width = nextWidth;
+      } else {
+        const nextHeight = aspectRatio * maxWidth;
+        fin_height = nextHeight;
+        fin_width = maxWidth;
+      }
+
+      dispatch(actions.resize({ width: fin_width, height: fin_height }));
+    }
+  }, [dispatch]);
 
   return (
     <div className={styles.tempac}>
