@@ -1,0 +1,34 @@
+.programOption {
+  &.selected {
+    // double text shadow
+    color: var(--primary-light);
+    path {
+      stroke: var(--primary-light) !important;
+    }
+  }
+
+  &.activated {
+    // invert
+    color: var(--primary-light);
+    .label {
+      color: black;
+      background-color: var(--primary);
+    }
+    path {
+      stroke: var(--primary-light) !important;
+    }
+  }
+
+  .label {
+    width: 100%;
+  }
+
+  .btn {
+    margin: auto;
+  }
+
+  .icon {
+    height: 100%;
+    width: 100%;
+  }
+}

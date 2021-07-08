@@ -1,0 +1,16 @@
+
+.menu {
+  display: inline-block;
+  text-align: left;
+
+  .menulist {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+
+    // reduce default spacing betwene buttons
+    h1 {
+      margin: var(--spacing-4) 0;
+    }
+  }
+}
