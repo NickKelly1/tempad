@@ -3,14 +3,14 @@
   display: inline-block;
   text-align: left;
 
-  .menulist {
-    margin: 0;
-    padding: 0;
-    list-style-position: inside;
-
-    // reduce default spacing betwene buttons
-    h1 {
-      margin: var(--spacing-4) 0;
-    }
+  // reduce default spacing betwene buttons
+  h1, h2 {
+    margin: 0.25em 0;
   }
+}
+
+.menuList {
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
 }

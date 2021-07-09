@@ -33,7 +33,7 @@ export const ProgramOption: FC<ProgramOptionProps> = (props) => {
     dispatch(actions.doubleClickProgram({ programId }));
   }, [programId]);
 
-  const style = useMemo(() => {
+  const focusClass = useMemo(() => {
     if (focused?.programId !== programId) return null;
     if (focused.stateId === ProgramStateId.Selected) return styles.selected;
     if (focused.stateId === ProgramStateId.Activated) return styles.active;
@@ -43,14 +43,14 @@ export const ProgramOption: FC<ProgramOptionProps> = (props) => {
   const Svg = useMemo(() => GetSvg(program.svg), [program.svg]);
 
   return (
-    <div className={clsx(styles.programOption, style)} >
+    <div className={clsx(styles.programOption, focusClass)} >
       <Button
         className={styles.btn}
         _onSingleClick={handleSingleClick}
         _onDoubleClick={handleDoubleClick}
         >
         <Svg className={styles.icon} />
-        <div className={styles.label}>{program.label}</div>
+        <div>{program.label}</div>
       </Button>
     </div>
   );

@@ -6,9 +6,17 @@ export enum ProgramId {
   Directory = 'Directroy',
   MissMinutes = 'MissMinutes',
 }
+
+export interface OptionText {
+  hotkey: string,
+  before: string,
+  after: string,
+};
+
 export interface ProgramOptions {
   label: string,
   svg: Svg,
+  headline: OptionText,
 };
 
 export enum ProgramStateId {
@@ -21,9 +29,15 @@ export enum MenuItemId {
   RunProgram = 'RunProgram',
   ClearCache = 'ClearCache',
 };
-export interface MenuItemOptions { disabled: boolean; }
+export interface MenuItemOptions {
+  disabled: boolean;
+  text: OptionText;
+}
 
-export interface ProgramSession<T> { programId: T, stateId: ProgramStateId };
+export interface ProgramSession<T> {
+  programId: T,
+  stateId: ProgramStateId,
+};
 export interface ProgramSessionTimedoor extends ProgramSession<ProgramId.Timedoor> {}
 export interface ProgramSessionSettings extends ProgramSession<ProgramId.Settings> {}
 export interface ProgramSessionDirectory extends ProgramSession<ProgramId.Directory> {}
@@ -97,18 +111,22 @@ export const initialState: State = {
         [ProgramId.Timedoor]: {
           label: 'TIMEDOOR',
           svg: Svg.TimeDoor,
+          headline: { before: '', hotkey: 't', after: 'imedoor' },
         },
         [ProgramId.Settings]: {
           label: 'SETTINGS',
           svg: Svg.Settings,
+          headline: { before: '', hotkey: 's', after: 'ettings' },
         },
         [ProgramId.Directory]: {
           label: 'DIRECTORY',
           svg: Svg.Directory,
+          headline: { before: '', hotkey: 'd', after: 'irectory' },
         },
         [ProgramId.MissMinutes]: {
           label: 'MISS MINUTES',
           svg: Svg.MissMinutes,
+          headline: { before: '', hotkey: 'm', after: 'iss minutes' },
         },
       },
     },
@@ -119,9 +137,18 @@ export const initialState: State = {
         MenuItemId.ClearCache,
       ],
       byId: {
-        [MenuItemId.Options]: { disabled: true },
-        [MenuItemId.RunProgram]: { disabled: true },
-        [MenuItemId.ClearCache]: { disabled: true },
+        [MenuItemId.Options]: {
+          disabled: true,
+          text: { before: '', hotkey: 'O', after: 'ptions' },
+        },
+        [MenuItemId.RunProgram]: {
+          disabled: true,
+          text: { before: '', hotkey: 'R', after: 'un Program' },
+        },
+        [MenuItemId.ClearCache]: {
+          disabled: true,
+          text: { before: '', hotkey: 'C', after: 'lear Cache' },
+        },
       }
     },
   },

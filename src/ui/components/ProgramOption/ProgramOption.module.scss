@@ -1,4 +1,6 @@
 .programOption {
+  height: 100%;
+
   &.selected {
     // double text shadow
     color: var(--primary-light);
@@ -18,58 +20,12 @@
     }
   }
 
-  .label {
-    width: 100%;
-  }
-
   .btn {
-    margin: auto;
+    height: 100%;
   }
 
   .icon {
-    height: 75px;
-    width: 75px;
-  }
-
-  @media only screen and (min-width: 360px) {
-    .icon {
-      height: 120px;
-      width: 120px;
-    }
-  }
-
-  @media only screen and (min-width: 576px) {
-    .icon {
-      height: 240px;
-      width: 240px;
-    }
-  }
-
-  @media only screen and (min-width: 768px) {
-    .icon {
-      height: 350px;
-      width: 350px;
-    }
-  }
-
-  @media only screen and (min-width: 992px) {
-    .icon {
-      height: 120px;
-      width: 120px;
-    }
-  }
-
-  @media only screen and (min-width: 1200px) {
-    .icon {
-      height: 550px;
-      width: 550px;
-    }
-  }
-
-  @media only screen and (min-width: 1440px) {
-    .icon {
-      height: 650px;
-      width: 650px;
-    }
+    width: 75%;
+    height: 75%;
   }
 }

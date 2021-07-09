@@ -1,10 +1,10 @@
-import { select } from '@redux-saga/core/effects';
 import React, { FC, MouseEventHandler, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selector } from '../../../store/selector';
-import { MenuItemId } from '../../../store/state';
 import { useUnfrozenCb } from '../../hooks/use-unfrozen-cb';
 import { Button } from '../Button/Button';
+import { HotkeyText } from '../HotkeyText/HotkeyText';
+import clsx from 'clsx';
 
 import styles from './MenuItem.module.scss';
 import { MenuitemProps } from './MenuItem.types';
@@ -15,50 +15,21 @@ export const MenuItem: FC<MenuitemProps> = (props) => {
   } = props;
 
   const ui = useSelector(selector.ui);
-  const options = useMemo(() => ui.menu.byId[itemId], [ui.menu.byId, itemId]);
+  const option = useMemo(() => ui.menu.byId[itemId], [ui.menu.byId, itemId]);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = useUnfrozenCb(() => {
-    switch (itemId) {
-      case MenuItemId.RunProgram: return null;
-      case MenuItemId.Options: return null;
-      case MenuItemId.ClearCache: return null;
-      default: return null;
-    }
-  }, [itemId]);
+    //
+  }, [option, itemId]);
 
-  const Content = useMemo(() => {
-    switch (itemId) {
-      case MenuItemId.RunProgram: return (
+  return (
+    <>
+      <li key={itemId} className={clsx(styles.menuItem, option.disabled && 'disabled')}>
         <Button
-          disabled={options.disabled}
+          disabled={option.disabled}
           onClick={handleClick}>
-          <div><li className={styles.menuitem}><u>R</u>un Program</li></div>
+          <HotkeyText text={option.text} />
         </Button>
-      )
-      case MenuItemId.Options: return (
-        <Button
-          disabled={options.disabled}
-          onClick={handleClick}>
-          <div><li className={styles.menuitem}><u>O</u>ptions</li></div>
-        </Button>
-      );
-        break;
-      case MenuItemId.ClearCache: return (
-        <Button
-          disabled={options.disabled}
-          onClick={handleClick}>
-          <div><li className={styles.menuitem}><u>C</u>lear Cache</li></div>
-        </Button>
-      );
-      default: return null
-    }
-  }, [handleClick, options, itemId]);
-
-
-  return <>{Content}</>;
-  // return (
-  //   <li>
-  //     {Content}
-  //   </li>
-  // );
+      </li>
+    </>
+  );
 }
