@@ -38,7 +38,6 @@ export const Button = memo(forwardRef((
 
   const handleClick = useCallback((evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const now = Date.now();
-    onClick?.(evt);
     if (lastClick.current === null) {
       // not clicked
       evt.persist();
@@ -47,11 +46,13 @@ export const Button = memo(forwardRef((
         lastClick.current = null;
         _onSingleClickRef.current?.(evt);
       }, DOUBLE_CLICK_THRESHOLD)};
+      onClick?.(evt, { isDoubleClick: false });
     } else {
       // has been clicked already
       clearTimeout(lastClick.current.timer);
       lastClick.current = null;
       _onDoubleClick?.(evt);
+      onClick?.(evt, { isDoubleClick: true });
     }
   }, [_onDoubleClick, onClick]);
 

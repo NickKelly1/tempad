@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selector } from '../../../store/selector';
+import { Selectors } from '../../../store/selector';
 import { ProgramId } from '../../../store/state';
 import { Button } from '../Button/Button';
 import { MenuItem } from '../MenuItem/MenuItem';
@@ -10,25 +10,35 @@ import { HotkeyText } from '../HotkeyText/HotkeyText';
 import styles from './Menu.module.scss';
 
 export const Menu: FC<MenuProps> = (props) => {
-  const ui = useSelector(selector.ui);
-
-  const programId: undefined | ProgramId = ui.focused?.programId;
-  const headline = (programId === undefined)
-    ? undefined
-    : ui.programs.byId[programId].headline;
+  const {
+    programId,
+    commands,
+    onMenuItemClick,
+    headline,
+  } = props;
 
   return (
-    <div className={styles.menu}>
-      <span>Action List<span className="ml-8">{'////'}</span></span>
-      <br />
+    <section className={styles.menu}>
+      <h1>
+        <span>Action List<span className="ml-8">{'////'}</span></span>
+      </h1>
       <Button>
-        <HotkeyText text={headline}></HotkeyText>
+        <h2>
+          <HotkeyText text={headline}></HotkeyText>
+        </h2>
       </Button>
       <ol className={styles.menuList}>
-        {ui.menu.ids.map(itemId => (
-          <MenuItem key={itemId} itemId={itemId} />
+        {commands.map((command, index) => (
+          <MenuItem
+            onClick={onMenuItemClick(index)}
+            key={`${programId}:${index}`}
+            disabled={command.disabled}
+            text={command.text}
+          />
         ))}
       </ol>
-    </div>
+    </section>
   );
-}
+};
+
+Menu.displayName = 'Menu';

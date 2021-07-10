@@ -1,5 +1,8 @@
-import { MenuItemId } from "../../../store/state";
+import { OptionText } from "../../../store/state";
+import { ClickHandler } from "../Button/Button.types";
 
-export interface MenuitemProps {
-  itemId: MenuItemId;
+export interface MenuItemProps {
+  onClick: ClickHandler;
+  disabled: boolean;
+  text: OptionText;
 }

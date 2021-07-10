@@ -4,18 +4,21 @@
   &.selected {
     // double text shadow
     color: var(--primary-light);
-    path {
+    path, circle {
       stroke: var(--primary-light) !important;
     }
   }
 
   &.activated {
     // invert
-    color: var(--primary-light); .label {
+    color: var(--primary-light);
+
+    .label {
       color: black;
-      background-color: var(--primary);
+      background-color: var(--primary-light);
     }
-    path {
+
+    path, circle {
       stroke: var(--primary-light) !important;
     }
   }

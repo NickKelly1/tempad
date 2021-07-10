@@ -13,42 +13,43 @@ export interface OptionText {
   after: string,
 };
 
-export interface ProgramOptions {
-  label: string,
-  svg: Svg,
-  headline: OptionText,
-};
-
 export enum ProgramStateId {
   None = 'None',
   Selected = 'Selected',
   Activated = 'Activated',
 }
-export enum MenuItemId {
-  Options = 'Options',
-  RunProgram = 'RunProgram',
-  ClearCache = 'ClearCache',
-};
-export interface MenuItemOptions {
-  disabled: boolean;
-  text: OptionText;
+
+export enum Opcode {
+  ExecuteProgramOptions = 'ExecuteProgramOptions',
+  ExecuteRunProgram = 'ExecuteRunProgram',
+  ExecuteClearProgramCache = 'ExecuteClearProgramCache',
 }
 
-export interface ProgramSession<T> {
-  programId: T,
-  stateId: ProgramStateId,
-};
-export interface ProgramSessionTimedoor extends ProgramSession<ProgramId.Timedoor> {}
-export interface ProgramSessionSettings extends ProgramSession<ProgramId.Settings> {}
-export interface ProgramSessionDirectory extends ProgramSession<ProgramId.Directory> {}
-export interface ProgramSessionMissMinutes extends ProgramSession<ProgramId.MissMinutes> {}
+export interface ProgramCommandLabel {
+  opcode: Opcode,
+  disabled: boolean,
+  text: OptionText,
+}
 
-export type FocusedProgram =
-  | ProgramSessionTimedoor
-  | ProgramSessionSettings
-  | ProgramSessionDirectory
-  | ProgramSessionMissMinutes
-;
+export enum ViewId {
+  MainMenu = 'MainMenu',
+  TimedoorProgram = 'TimedoorProgram',
+  SettingsProgram = 'SettingsProgram',
+  DirectoryProgram = 'DirectoryProgram',
+  MissMinutesProgram = 'MissMinutesProgram',
+}
+
+export interface ProgramCommandMenu {
+  headline: OptionText,
+  commands: ProgramCommandLabel[],
+}
+
+export interface ProgramItem {
+  programId: ProgramId,
+  label: string,
+  svg: Svg,
+  menu: ProgramCommandMenu,
+};
 
 enum Orienation {
   Landscape = 'Landscape',
@@ -57,6 +58,8 @@ enum Orienation {
 
 export interface State {
   ui: {
+    latency: number,
+    isFrozen: boolean,
     tempac: {
       // all in px
       orientation: Orienation,
@@ -64,92 +67,142 @@ export interface State {
       width: number;
       fontSize: number;
     }
-
-    isFrozen: boolean;
-    clicks: number,
-    focused: null | FocusedProgram;
-    programs: {
-      ids: ProgramId[];
+    views: {
+      targetId: ViewId;
       byId: {
-        [ProgramId.Timedoor]: ProgramOptions,
-        [ProgramId.Settings]: ProgramOptions,
-        [ProgramId.Directory]: ProgramOptions,
-        [ProgramId.MissMinutes]: ProgramOptions,
+        [ViewId.MainMenu]: {
+          viewId: ViewId.MainMenu;
+          programs: {
+            target: null | {
+              isLoading: boolean,
+              programId: ProgramId,
+              state: ProgramStateId,
+            },
+            ids: ProgramId[], 
+            byId: Record<ProgramId, ProgramItem>,
+          },
+          defaultMenu: ProgramCommandMenu,
+        },
+        [ViewId.TimedoorProgram]: {
+          viewId: ViewId.TimedoorProgram;
+          //
+        },
       }
-    },
-    menu: {
-      ids: MenuItemId[],
-      byId: {
-        [MenuItemId.Options]: MenuItemOptions,
-        [MenuItemId.RunProgram]: MenuItemOptions,
-        [MenuItemId.ClearCache]: MenuItemOptions,
-      }
-    },
+    }
   }
 };
+
+const optionCommandLabel: ProgramCommandLabel = {
+  opcode: Opcode.ExecuteProgramOptions,
+  disabled: true,
+  text: { before: '', hotkey: 'O', after: 'ptions' },
+};
+
+const runProgramCommandLabel: ProgramCommandLabel = {
+  opcode: Opcode.ExecuteRunProgram,
+  disabled: true,
+  text: { before: '', hotkey: 'R', after: 'un Program' },
+}
+
+const clearCacheCommandLabel: ProgramCommandLabel = {
+  opcode: Opcode.ExecuteClearProgramCache,
+  disabled: true,
+  text: { before: '', hotkey: 'C', after: 'lear Cache' },
+}
 
 
 export const initialState: State = {
   ui: {
+    latency: 125,
+    isFrozen: false,
     tempac: {
       orientation: Orienation.Portrait,
-      height: 100,
-      width: 100,
+      height: 640,
+      width: 360,
       fontSize: 16,
     },
-    isFrozen: false,
-    clicks: 0,
-    focused: null,
-    programs: {
-      ids: [
-        ProgramId.Timedoor,
-        ProgramId.Settings,
-        ProgramId.Directory,
-        ProgramId.MissMinutes,
-      ],
+    views: {
+      targetId: ViewId.MainMenu,
       byId: {
-        [ProgramId.Timedoor]: {
-          label: 'TIMEDOOR',
-          svg: Svg.TimeDoor,
-          headline: { before: '', hotkey: 't', after: 'imedoor' },
+        [ViewId.TimedoorProgram]: {
+          viewId: ViewId.TimedoorProgram,
+          //
         },
-        [ProgramId.Settings]: {
-          label: 'SETTINGS',
-          svg: Svg.Settings,
-          headline: { before: '', hotkey: 's', after: 'ettings' },
-        },
-        [ProgramId.Directory]: {
-          label: 'DIRECTORY',
-          svg: Svg.Directory,
-          headline: { before: '', hotkey: 'd', after: 'irectory' },
-        },
-        [ProgramId.MissMinutes]: {
-          label: 'MISS MINUTES',
-          svg: Svg.MissMinutes,
-          headline: { before: '', hotkey: 'm', after: 'iss minutes' },
+        [ViewId.MainMenu]: {
+          viewId: ViewId.MainMenu,
+          defaultMenu: {
+            headline: { before: '', hotkey: 'S', after: 'elect', },
+            commands: [
+              optionCommandLabel,
+              runProgramCommandLabel,
+              clearCacheCommandLabel,
+            ],
+          },
+          programs: {
+            target: null,
+            ids: [
+              ProgramId.Timedoor,
+              ProgramId.Settings,
+              ProgramId.Directory,
+              ProgramId.MissMinutes
+            ],
+            byId: {
+              [ProgramId.Timedoor]: {
+                label: 'Timedoor',
+                svg: Svg.TimeDoor,
+                programId: ProgramId.Timedoor,
+                menu: {
+                  headline: { before: '', hotkey: 't', after: 'imedoor' },
+                  commands: [
+                    optionCommandLabel,
+                    runProgramCommandLabel,
+                    clearCacheCommandLabel,
+                  ]
+                },
+              },
+              [ProgramId.Settings]: {
+                label: 'Settings',
+                svg: Svg.Settings,
+                programId: ProgramId.Settings,
+                menu: {
+                  headline: { before: '', hotkey: 's', after: 'ettings' },
+                  commands: [
+                    optionCommandLabel,
+                    runProgramCommandLabel,
+                    clearCacheCommandLabel,
+                  ]
+                },
+              },
+              [ProgramId.Directory]: {
+                label: 'Directory',
+                svg: Svg.Directory,
+                programId: ProgramId.Directory,
+                menu: {
+                  headline: { before: '', hotkey: 'D', after: 'irectory' },
+                  commands: [
+                    optionCommandLabel,
+                    runProgramCommandLabel,
+                    clearCacheCommandLabel,
+                  ]
+                },
+              },
+              [ProgramId.MissMinutes]: {
+                label: 'Miss Minutes',
+                svg: Svg.MissMinutes,
+                programId: ProgramId.MissMinutes,
+                menu: {
+                  headline: { before: '', hotkey: 'M', after: 'iss Minutes' },
+                  commands: [
+                    optionCommandLabel,
+                    runProgramCommandLabel,
+                    clearCacheCommandLabel,
+                  ]
+                },
+              },
+            },
+          },
         },
       },
-    },
-    menu: {
-      ids: [
-        MenuItemId.Options,
-        MenuItemId.RunProgram,
-        MenuItemId.ClearCache,
-      ],
-      byId: {
-        [MenuItemId.Options]: {
-          disabled: true,
-          text: { before: '', hotkey: 'O', after: 'ptions' },
-        },
-        [MenuItemId.RunProgram]: {
-          disabled: true,
-          text: { before: '', hotkey: 'R', after: 'un Program' },
-        },
-        [MenuItemId.ClearCache]: {
-          disabled: true,
-          text: { before: '', hotkey: 'C', after: 'lear Cache' },
-        },
-      }
-    },
+    }
   },
 };

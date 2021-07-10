@@ -1,35 +1,29 @@
-import React, { FC, MouseEventHandler, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { selector } from '../../../store/selector';
-import { useUnfrozenCb } from '../../hooks/use-unfrozen-cb';
+import React, { FC, } from 'react';
 import { Button } from '../Button/Button';
 import { HotkeyText } from '../HotkeyText/HotkeyText';
 import clsx from 'clsx';
 
 import styles from './MenuItem.module.scss';
-import { MenuitemProps } from './MenuItem.types';
+import { MenuItemProps } from './MenuItem.types';
 
-export const MenuItem: FC<MenuitemProps> = (props) => {
+export const MenuItem: FC<MenuItemProps> = (props) => {
   const {
-    itemId,
+    onClick,
+    disabled,
+    text,
   } = props;
-
-  const ui = useSelector(selector.ui);
-  const option = useMemo(() => ui.menu.byId[itemId], [ui.menu.byId, itemId]);
-
-  const handleClick: MouseEventHandler<HTMLButtonElement> = useUnfrozenCb(() => {
-    //
-  }, [option, itemId]);
 
   return (
     <>
-      <li key={itemId} className={clsx(styles.menuItem, option.disabled && 'disabled')}>
+      <li className={clsx(styles.menuItem, disabled && 'disabled')}>
         <Button
-          disabled={option.disabled}
-          onClick={handleClick}>
-          <HotkeyText text={option.text} />
+          disabled={disabled}
+          onClick={onClick}>
+          <HotkeyText text={text} />
         </Button>
       </li>
     </>
   );
-}
+};
+
+MenuItem.displayName = 'MenuItem';
