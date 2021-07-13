@@ -7,9 +7,10 @@
 //   const { payload } = action;
 //   const { opcode } = payload;
 
-import { Actions } from "@reduxjs/toolkit";
-import { takeLatest } from "redux-saga/effects";
+import { call, select, takeLatest } from "redux-saga/effects";
 import { $Action, $Saga } from "../..";
+import { $select } from "../../effects";
+import { $Selector } from "../../selector";
 
 //   // must be on MainMenu
 //   const targetView: $Selector.Views.Target = yield select($Selector.Views.target);
@@ -46,18 +47,37 @@ import { $Action, $Saga } from "../..";
 
 export function * watchers() {
   yield takeLatest(
-    $Action.MainMenuView.handleSetTargetProgram,
+    $Action.MainMenuView.handleExecuteProgramCommand,
     (action) => {
       const { payload } = action;
-      const { programId } = payload;
-      return $Saga.Services.MainMenuView.setTargetProgram(programId)
+      const { programId, index } = payload;
+      return $Saga
+        .Services
+        .MainMenuView
+        .executeProgramCommand(programId, index)
     });
 
   yield takeLatest(
-    $Action.MainMenuView.handleExecuteProgram,
+    $Action.MainMenuView.handleSetTargetProgram,
+    function * (action) {
+      const { payload } = action;
+      const { programId } = payload;
+      const prevProgramId = yield * $select($Selector.MainMenuView.targetProgramId);
+      if (prevProgramId === programId) return;
+      yield call($Saga
+        .Services
+        .MainMenuView
+        .setTargetProgram, programId);
+    });
+
+  yield takeLatest(
+    $Action.MainMenuView.handleRunProgram,
     (action) => {
       const { payload } = action;
       const { programId } = payload;
-      return $Saga.Services.MainMenuView.executeProgram(programId)
+      return $Saga
+        .Services
+        .MainMenuView
+        .runProgram(programId)
     });
 }

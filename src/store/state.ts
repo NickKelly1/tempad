@@ -65,15 +65,30 @@ export interface ProgramCommandInstance {
 export interface ProgramInstance<ID extends ProgramId = ProgramId> {
   programId: ID,
   stateId: ProgramStateId,
-  commands: ProgramCommandInstance[],
-  commandLabel: OptionText,
   iconSvg: SvgIcon,
   iconLabel: OptionText,
 }
 
+export interface ProgramContainer<ID extends ProgramId = ProgramId> {
+  programId: ID,
+  instance: ProgramInstance<ID>,
+}
+
+export interface ProgramCommandContainer<ID extends ProgramId = ProgramId> {
+  programId: ID,
+  label: OptionText,
+  instances: ProgramCommandInstance[]
+}
+
 export interface State {
-  programs: {
-    byId: { [ID in ProgramId]: ProgramInstance<ID> },
+  core: {
+    programIds: ProgramId[],
+    commands: {
+      byId: { [ID in ProgramId]: ProgramCommandContainer<ID> },
+    },
+    programs: {
+      byId: { [ID in ProgramId]: ProgramContainer<ID> }
+    },
   },
   ui: {
     targetViewId: ViewId;
@@ -137,39 +152,75 @@ const defaultCommands = [
 
 
 export const initialState: State = {
-  programs: {
-    byId: {
-      [ProgramId.Timedoor]: {
-        programId: ProgramId.Timedoor,
-        stateId: ProgramStateId.None,
-        commands: defaultCommands,
-        commandLabel: ['', 'T', 'imedoor'],
-        iconSvg: SvgIcon.TimeDoor,
-        iconLabel: ['', '', 'Timedoor'],
+  core: {
+    programIds: [
+      ProgramId.Timedoor,
+      ProgramId.Settings,
+      ProgramId.Directory,
+      ProgramId.MissMinutes,
+    ],
+    programs: {
+      byId: {
+        [ProgramId.Timedoor]: {
+          programId: ProgramId.Timedoor,
+          instance: {
+            programId: ProgramId.Timedoor,
+            stateId: ProgramStateId.None,
+            iconSvg: SvgIcon.TimeDoor,
+            iconLabel: ['', '', 'Timedoor'],
+          },
+        },
+        [ProgramId.Settings]: {
+          programId: ProgramId.Settings,
+          instance: {
+            programId: ProgramId.Settings,
+            stateId: ProgramStateId.None,
+            iconSvg: SvgIcon.Settings,
+            iconLabel: ['', '', 'Settings'],
+          },
+        },
+        [ProgramId.Directory]: {
+          programId: ProgramId.Directory,
+          instance: {
+            programId: ProgramId.Directory,
+            stateId: ProgramStateId.None,
+            iconSvg: SvgIcon.Directory,
+            iconLabel: ['', '', 'Directory'],
+          },
+        },
+        [ProgramId.MissMinutes]: {
+          programId: ProgramId.MissMinutes,
+          instance: {
+            programId: ProgramId.MissMinutes,
+            stateId: ProgramStateId.None,
+            iconSvg: SvgIcon.MissMinutes,
+            iconLabel: ['', '', 'Miss Minutes'],
+          },
+        },
       },
-      [ProgramId.Settings]: {
-        programId: ProgramId.Settings,
-        stateId: ProgramStateId.None,
-        commands: defaultCommands,
-        commandLabel: ['', 'S', 'ettings'],
-        iconSvg: SvgIcon.Settings,
-        iconLabel: ['', '', 'Settings'],
-      },
-      [ProgramId.Directory]: {
-        programId: ProgramId.Directory,
-        stateId: ProgramStateId.None,
-        commands: defaultCommands,
-        commandLabel: ['', 'D', 'irectory'],
-        iconSvg: SvgIcon.Directory,
-        iconLabel: ['', '', 'Directory'],
-      },
-      [ProgramId.MissMinutes]: {
-        programId: ProgramId.MissMinutes,
-        stateId: ProgramStateId.None,
-        commands: defaultCommands,
-        commandLabel: ['', 'M', 'iss Minutes'],
-        iconSvg: SvgIcon.MissMinutes,
-        iconLabel: ['', '', 'Miss Minutes'],
+    },
+    commands: {
+      byId: {
+        [ProgramId.Timedoor]: {
+          programId: ProgramId.Timedoor,
+          instances: defaultCommands,
+          label: ['', 'T', 'imedoor'],
+        },
+        [ProgramId.Settings]: {
+          programId: ProgramId.Settings,
+          instances: defaultCommands,
+          label: ['', 'S', 'ettings'],
+        },
+        [ProgramId.Directory]: {
+          programId: ProgramId.Directory,
+          instances: defaultCommands,
+          label: ['', 'D', 'irectory'],
+        },
+        [ProgramId.MissMinutes]: {
+          programId: ProgramId.MissMinutes,
+          instances: defaultCommands,
+          label: ['', 'M', 'iss Minutes'],
+        },
       },
     },
   },

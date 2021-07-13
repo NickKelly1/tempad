@@ -24,4 +24,10 @@ export const reduce = (builder: ActionReducerMapBuilder<State>) => {
     const { programId } = payload;
     state.views[ViewId.MainMenu].programs.targetId = programId;
   });
+
+  builder.addCase($Action.MainMenuView.runProgram, (state, action) => {
+    const { payload } = action;
+    const { programId } = payload;
+    state.views[ViewId.MainMenu].programs.targetId = programId;
+  });
 };

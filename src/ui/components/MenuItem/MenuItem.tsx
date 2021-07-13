@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 import styles from './MenuItem.module.scss';
 import { MenuItemProps } from './MenuItem.types';
-import { useCallbackRef } from '../../hooks/use-callback-ref';
+import { useValueRef } from '../../hooks/use-value-ref';
 import { ClickHandler } from '../Button/Button.types';
 
 export const MenuItem: FC<MenuItemProps> = (props) => {

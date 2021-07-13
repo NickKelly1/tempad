@@ -3,7 +3,7 @@ import { ClickHandler } from "../Button/Button.types";
 
 export interface ProgramCommandProps {
   className?: null | string;
-  onClick: ClickHandler;
+  onClick?: ClickHandler;
   disabled: boolean;
   text: OptionText;
   activated: boolean;

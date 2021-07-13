@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { useCallbackRef } from '../../hooks/use-callback-ref';
+import { useValueRef } from '../../hooks/use-value-ref';
 import { useRefs } from '../../hooks/use-refs';
 import { ButtonProps } from './Button.types';
 
@@ -30,9 +30,9 @@ export const Button = memo(forwardRef((
   } = props;
 
   // reference singleClick
-  const onDoubleClick = useCallbackRef(props._onDoubleClick);
-  const onSingleClick = useCallbackRef(props._onSingleClick);
-  const _onClick = useCallbackRef(props.onClick);
+  const onDoubleClick = useValueRef(props._onDoubleClick);
+  const onSingleClick = useValueRef(props._onSingleClick);
+  const _onClick = useValueRef(props.onClick);
 
   const innerRef = useRefs(outerRef);
 

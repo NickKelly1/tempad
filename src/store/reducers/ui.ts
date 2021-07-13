@@ -15,19 +15,9 @@ function applyResize(state: _State, width: number, height: number) {
 }
 
 export const reduce = (builder: ActionReducerMapBuilder<State>) => {
-  builder.addCase($Action.Ui.resize, (state, action) => {
+  builder.addCase($Action.Ui.resizeTempac, (state, action) => {
     const { payload } = action;
     const { height, width } = payload;
-    // applyResize(state, width, height);
-    state.ui.tempac.height = height;
-    state.ui.tempac.width = width;
-    state.ui.tempac.fontSize = Math.round(width / 23);
-  });
-
-  builder.addCase($Action.Ui.focus, (state, action) => {
-    const { payload } = action;
-    const { height, width } = payload;
-    // applyResize(state, width, height);
     state.ui.tempac.height = height;
     state.ui.tempac.width = width;
     state.ui.tempac.fontSize = Math.round(width / 23);

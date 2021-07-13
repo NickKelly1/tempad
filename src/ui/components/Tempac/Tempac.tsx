@@ -6,11 +6,11 @@ import { $Selector } from '../../../store/selector';
 import { ViewId } from '../../../store/state';
 import { TempacProps } from './Tempac.types';
 import Head from 'next/head';
-import { handleResize } from '../../../util/handle-resize';
-import { MainMenuView } from '../../views/MainMenuView/MainMenuView';
+import { tempacDimensions } from '../../../util/handle-resize';
 import { useLayoutEffect } from '../../hooks/use-layout-effect';
 import { ProgramViewContainer } from '../../views/ProgramViewContainer/ProgramViewContainer';
 import { MainMenuViewContainer } from '../../views/MainMenuViewContainer/MainMenuViewContainer';
+import { $Action } from '../../../store';
 
 
 export const Tempac: FC<TempacProps> = () => {
@@ -21,18 +21,32 @@ export const Tempac: FC<TempacProps> = () => {
 
   // resize on first load
   useLayoutEffect(() => {
-    handleResize(maximums.current, dispatch);
+    if (!maximums.current) return;
+    dispatch($Action
+      .Ui
+      .handleFocus(tempacDimensions(maximums.current)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // resize on page resizes
   useLayoutEffect(() => {
-    const onResize = () => handleResize(maximums.current, dispatch);
-    window.addEventListener('resize', onResize);
-    window.addEventListener('focus', onResize);
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('focus', handleFocus);
     return () => {
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('focus', onResize);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('focus', handleFocus);
+    }
+    function handleResize() {
+      if (!maximums.current) return;
+      dispatch($Action
+        .Ui
+        .handleResize(tempacDimensions(maximums.current)));
+    }
+    function handleFocus() {
+      if (!maximums.current) return;
+      dispatch($Action
+        .Ui
+        .handleFocus(tempacDimensions(maximums.current)));
     }
   }, [dispatch]);
 

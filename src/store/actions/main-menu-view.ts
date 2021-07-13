@@ -6,14 +6,18 @@ export const handleSetTargetProgram = createAction<{
   programId: ProgramId,
 }>('MainMenuView:HandleSetTargetProgram');
 
-export const handleRunProgramCommand = createAction<{
+export const handleExecuteProgramCommand = createAction<{
   programId: ProgramId,
   index: number,
-}>('MainMenuView:HandleRunProgramCommand');
+}>('MainMenuView:HandleExecuteProgramCommand');
 
-export const handleExecuteProgram = createAction<{
+export const handleRunProgram = createAction<{
   programId: ProgramId,
-}>('MainMenuView:HandleExecuteProgram');
+}>('MainMenuView:HandleRunProgram');
+
+export const runProgram = createAction<{
+  programId: ProgramId,
+}>('MainMenuView:RunProgram');
 
 export const iconRectChanged = createAction<{
   programId: ProgramId,

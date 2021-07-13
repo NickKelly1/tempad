@@ -2,6 +2,7 @@ import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import { State, State as _State, ViewId } from "../state";
 
 export * as Ui from './ui';
+export * as Core from './core';
 export * as MainMenuView from './main-menu-view';
 export * as ProgramView from './program-view';
 

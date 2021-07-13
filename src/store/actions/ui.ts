@@ -1,17 +1,22 @@
 import { createAction } from "@reduxjs/toolkit";
 import { ViewId } from "../state";
 
-export const resize = createAction<{
+export const handleResize = createAction<{
   height: number,
   width: number,
-}>('Ui:Resize');
+}>('Ui:HandleResize');
 
 
-export const focus = createAction<{
+export const handleFocus = createAction<{
   height: number,
   width: number,
-}>('Ui:Focus');
+}>('Ui:HandleFocus');
 
+
+export const resizeTempac = createAction<{
+  height: number,
+  width: number,
+}>('Ui:ResizeTempac');
 
 export const setViewFading = createAction<{
   viewId: ViewId,

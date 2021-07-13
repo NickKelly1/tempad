@@ -3,9 +3,9 @@ import { $Action } from "../store";
 
 const ASPECT_RATIO = 16 / 9;
 
-export function handleResize(maximums: null | HTMLDivElement, dispatch: Dispatch<any>) {
-  if (!maximums) return;
 
+type Dimensions = { width: number, height: number }
+export function tempacDimensions(maximums: HTMLDivElement): Dimensions {
   // maintain aspect ratio of tempac
   const maxDimensions = maximums.getBoundingClientRect();
   const maxHeight = maxDimensions.height;
@@ -24,5 +24,5 @@ export function handleResize(maximums: null | HTMLDivElement, dispatch: Dispatch
     fin_width = maxWidth;
   }
 
-  dispatch($Action.Ui.resize({ width: fin_width, height: fin_height }));
+  return { width: fin_width, height: fin_height };
 }

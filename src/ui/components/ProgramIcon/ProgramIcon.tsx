@@ -54,11 +54,6 @@ export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
     return () => robserver.disconnect();
   }, [onIconRectChange]);
 
-  const visibilityClass = visible ? styles.visible : styles.hidden;
-
-  let focusClass: string | null = null;
-  if (activated) focusClass = styles.activated;
-
   return (
     <div
       style={style}
@@ -66,12 +61,13 @@ export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
       className={clsx(
         className,
         styles.program_icon_container,
-        visibilityClass,
-        focusClass
+        !visible && 'hidden',
       )}
       >
       <Button
-        onClick={onClick}>
+        className={clsx(activated && styles.activated)}
+        onClick={onClick}
+        >
         <IconSvg className={styles.icon} />
         <div><span className={styles.label}>{label}</span></div>
       </Button>
