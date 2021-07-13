@@ -5,4 +5,6 @@ export interface MenuItemProps {
   onClick: ClickHandler;
   disabled: boolean;
   text: OptionText;
+  selected?: boolean;
+  activated?: boolean;
 }

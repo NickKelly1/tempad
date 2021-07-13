@@ -1,7 +1,5 @@
-import React, { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { Selectors } from '../../../store/selector';
-import { ProgramId } from '../../../store/state';
+import React, { FC } from 'react';
+import { OptionStateId } from '../../../store/state';
 import { Button } from '../Button/Button';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { MenuProps } from './Menu.types';
@@ -34,6 +32,8 @@ export const Menu: FC<MenuProps> = (props) => {
             key={`${programId}:${index}`}
             disabled={command.disabled}
             text={command.text}
+            selected={command.state === OptionStateId.Selected}
+            activated={command.state === OptionStateId.Activated}
           />
         ))}
       </ol>

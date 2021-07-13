@@ -1,18 +1,13 @@
 import {
-  createAsyncThunk,
-  createAction,
-  createReducer,
-  configureStore,
   createStore,
   applyMiddleware,
   getDefaultMiddleware,
-  compose,
 } from "@reduxjs/toolkit";
 import createSagaMiddleware from 'redux-saga';
-import { reducer } from "./reducer";
 import { rootSaga } from "./saga";
 import { createLogger } from 'redux-logger';
-import { EnhancerOptions, composeWithDevTools, devToolsEnhancer } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { rootReducer } from "./reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,7 +20,7 @@ const middleware = [
 ];
 
 export const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools({})(applyMiddleware(...middleware)),
 );
 

@@ -1,33 +1,32 @@
 import styles from './Tempac.module.scss'
-import React, { Dispatch, FC, useEffect, useMemo, useRef } from 'react';
+import React, { FC, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
-import { Selectors } from '../../../store/selector';
-import { ProgramId } from '../../../store/state';
-import { Button } from '../Button/Button';
-import { ProgramIcon } from '../ProgramIcon/ProgramIcon';
+import { $Selector } from '../../../store/selector';
+import { ViewId } from '../../../store/state';
 import { TempacProps } from './Tempac.types';
-import { Menu } from '../Menu/Menu';
 import Head from 'next/head';
-import { Actions } from '../../../store/action';
 import { handleResize } from '../../../util/handle-resize';
 import { MainMenuView } from '../../views/MainMenuView/MainMenuView';
+import { useLayoutEffect } from '../../hooks/use-layout-effect';
+import { ProgramViewContainer } from '../../views/ProgramViewContainer/ProgramViewContainer';
+import { MainMenuViewContainer } from '../../views/MainMenuViewContainer/MainMenuViewContainer';
 
 
 export const Tempac: FC<TempacProps> = () => {
-  const ui = useSelector(Selectors.ui);
+  const ui = useSelector($Selector.Ui.self);
 
   const maximums = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
   // resize on first load
-  useEffect(() => {
+  useLayoutEffect(() => {
     handleResize(maximums.current, dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // resize on page resizes
-  useEffect(() => {
+  useLayoutEffect(() => {
     const onResize = () => handleResize(maximums.current, dispatch);
     window.addEventListener('resize', onResize);
     window.addEventListener('focus', onResize);
@@ -47,6 +46,9 @@ export const Tempac: FC<TempacProps> = () => {
     fontSize: `${fontSize}px`,
   };
 
+  const viewId = ui.targetViewId;
+  const fadingViews = ui.fadingViewIds;
+
   return (
     // full page
     <div className={styles.page}>
@@ -61,8 +63,24 @@ export const Tempac: FC<TempacProps> = () => {
             className={styles.tempac}
             style={responsiveStyle}>
             <div className={styles.screen}>
-              <div className={styles.viewContainer}>
-                <MainMenuView />
+              <div className={styles.viewArea}>
+                {/* current view */}
+                <div className={styles.viewContainer}>
+                  {(viewId === ViewId.MainMenu) && <MainMenuViewContainer />}
+                  {(viewId === ViewId.Program) && <ProgramViewContainer />}
+                </div>
+                {/* fading views */}
+                {fadingViews.map((fadingViewId, i) => {
+                  switch (fadingViewId) {
+                    case ViewId.MainMenu: return (
+                      <FadingView
+                        key={fadingViewId}
+                        render={<MainMenuViewContainer />}
+                      />
+                    );
+                    default: return null;
+                  }
+                })}
               </div>
               <footer className={styles.footer}>
                 <span className={clsx("mr-8", styles.text)}>04.12.1985</span>
@@ -76,5 +94,15 @@ export const Tempac: FC<TempacProps> = () => {
         </div>
       </div>
     </div>
+  );
+}
+
+interface FadingViewProps { 
+  render: React.ReactElement;
+}
+const FadingView: FC<FadingViewProps> = (props) => {
+  const { render } = props;
+  return (
+    <div className={styles.fadingView}>{render}</div>
   );
 }

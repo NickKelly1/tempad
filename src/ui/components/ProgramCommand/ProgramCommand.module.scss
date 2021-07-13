@@ -1,0 +1,32 @@
+.program_command {
+  margin: 8px 0;
+
+  // &:not(.disabled) {
+  //   color: var(--primary-light);
+  // }
+
+  // &.selected {
+  //   color: var(--primary-light);
+  // }
+
+  // &.activated {
+  //   background-color: var(--primary-light);
+  //   color: black;;
+  // }
+
+  button {
+    display: inline-block !important;
+
+    &:hover:enabled:not(.activated) {
+      color: var(--primary-light);
+    }
+
+    &.activated {
+      background-color: var(--primary-light);
+      color: black;;
+    }
+  }
+
+  font-size: 1.5em;
+}
+

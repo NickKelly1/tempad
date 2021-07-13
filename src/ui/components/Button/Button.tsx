@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
+import { useCallbackRef } from '../../hooks/use-callback-ref';
 import { useRefs } from '../../hooks/use-refs';
 import { ButtonProps } from './Button.types';
 
@@ -20,16 +21,18 @@ export const Button = memo(forwardRef((
   outerRef: ForwardedRef<HTMLButtonElement>
 ) => {
   const {
-    onClick,
-    _onDoubleClick,
-    _onSingleClick,
+    onClick: discard1,
+    _onDoubleClick: discard2,
+    _onSingleClick: discard3,
+
     children,
     ...otherProps
   } = props;
 
   // reference singleClick
-  const _onSingleClickRef = useRef(_onSingleClick);
-  useEffect(() => void (_onSingleClickRef.current = _onSingleClick), [_onSingleClick]);
+  const onDoubleClick = useCallbackRef(props._onDoubleClick);
+  const onSingleClick = useCallbackRef(props._onSingleClick);
+  const _onClick = useCallbackRef(props.onClick);
 
   const innerRef = useRefs(outerRef);
 
@@ -44,17 +47,17 @@ export const Button = memo(forwardRef((
       lastClick.current = { at: now, timer: setTimeout(() => {
         // single click successful - clear pending
         lastClick.current = null;
-        _onSingleClickRef.current?.(evt);
+        onSingleClick.current?.(evt);
       }, DOUBLE_CLICK_THRESHOLD)};
-      onClick?.(evt, { isDoubleClick: false });
+      _onClick.current?.(evt, { isDoubleClick: false });
     } else {
       // has been clicked already
       clearTimeout(lastClick.current.timer);
       lastClick.current = null;
-      _onDoubleClick?.(evt);
-      onClick?.(evt, { isDoubleClick: true });
+      onDoubleClick.current?.(evt);
+      _onClick.current?.(evt, { isDoubleClick: true });
     }
-  }, [_onDoubleClick, onClick]);
+  }, [_onClick, onSingleClick, onDoubleClick]);
 
 
   return (

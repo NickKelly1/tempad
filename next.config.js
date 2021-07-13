@@ -1,11 +1,13 @@
 module.exports = {
   reactStrictMode: true,
-  // webpack(config) {
-  //   config.module.rules.push({
-  //     test: /\.svg$/,
-  //     use: ["@svgr/webpack"]
-  //   });
+  // use svgr instead of "inline-react-svg"
+  // "inline-react-svg" does not support refs
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
 
-  //   return config;
-  // },
+    return config;
+  },
 }

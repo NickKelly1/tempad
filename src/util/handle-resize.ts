@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { Actions } from "../store/action";
+import { $Action } from "../store";
 
 const ASPECT_RATIO = 16 / 9;
 
@@ -24,5 +24,5 @@ export function handleResize(maximums: null | HTMLDivElement, dispatch: Dispatch
     fin_width = maxWidth;
   }
 
-  dispatch(Actions.Events.resize({ width: fin_width, height: fin_height }));
+  dispatch($Action.Ui.resize({ width: fin_width, height: fin_height }));
 }

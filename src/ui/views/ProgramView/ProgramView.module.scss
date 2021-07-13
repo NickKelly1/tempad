@@ -7,3 +7,18 @@
     1fr
     1fr;
 }
+
+.iconContainer {
+  display: relative;
+  width: 100%;
+  height: 100%
+}
+
+.iconHandle {
+  position: absolute;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+}

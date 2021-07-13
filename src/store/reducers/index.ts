@@ -1,12 +1,4 @@
-import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
-import { State } from '../state';
-
-import * as Views from './views';
-import * as Commands from './commands';
-import * as Events from './events';
-
-export function reducer(builder: ActionReducerMapBuilder<State>) {
-  Commands.reducer(builder);
-  Events.reducer(builder);
-  Views.reducer(builder);
-}
+export * as MainMenuView from './main-menu-view';
+export * as ProgramView from './program-view';
+export * as Program from './program';
+export * as Ui from './ui';

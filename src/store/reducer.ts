@@ -1,10 +1,10 @@
-import { createReducer, current } from "@reduxjs/toolkit";
-import { Actions } from "./action";
-import { Selectors } from "./selector";
-import { initialState, ProgramId, ProgramStateId, State, ViewId } from "./state";
+import { createReducer, } from "@reduxjs/toolkit";
+import { $Reducer } from ".";
+import { initialState, } from "./state";
 
-import * as Root from './reducers';
-
-export const reducer = createReducer(initialState, (builder) => {
-  Root.reducer(builder);
+export const rootReducer = createReducer(initialState, (builder) => {
+  $Reducer.Ui.reduce(builder);
+  $Reducer.MainMenuView.reduce(builder);
+  $Reducer.Program.reduce(builder);
+  $Reducer.ProgramView.reduce(builder);
 });

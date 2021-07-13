@@ -184,3 +184,11 @@ a {
 .disabled {
   filter: brightness(0.4);
 }
+
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}

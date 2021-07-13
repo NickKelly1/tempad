@@ -1,208 +1,229 @@
-import { Svg } from "../util/svg";
+import { SvgIcon } from "../util/svg-icon";
 
 export enum ProgramId {
-  Timedoor = 'Timedoor',
-  Settings = 'Settings',
-  Directory = 'Directroy',
-  MissMinutes = 'MissMinutes',
+  Timedoor = 'Program:Timedoor',
+  Settings = 'Program:Settings',
+  Directory = 'Program:Directroy',
+  MissMinutes = 'Program:MissMinutes',
 }
 
-export interface OptionText {
-  hotkey: string,
-  before: string,
-  after: string,
-};
+export type OptionText = [before: string, hotkey: string, after: string];
 
 export enum ProgramStateId {
-  None = 'None',
-  Selected = 'Selected',
-  Activated = 'Activated',
+  None = 'ProgramState:None',
+  Initialising = 'ProgramState:Initialising',
+  Ready = 'ProgramState:Ready',
 }
 
 export enum Opcode {
-  ExecuteProgramOptions = 'ExecuteProgramOptions',
-  ExecuteRunProgram = 'ExecuteRunProgram',
-  ExecuteClearProgramCache = 'ExecuteClearProgramCache',
+  ExecuteProgramOptions = 'Opcode:ExecuteProgramOptions',
+  ExecuteRunProgram = 'Opcode:ExecuteRunProgram',
+  ExecuteClearProgramCache = 'Opcode:ExecuteClearProgramCache',
 }
 
-export interface ProgramCommandLabel {
-  opcode: Opcode,
-  disabled: boolean,
-  text: OptionText,
+export enum OptionStateId {
+  None = 'OptionState:None',
+  Selected = 'OptionState:Selected',
+  Activated = 'OptionState:Activated',
 }
 
 export enum ViewId {
-  MainMenu = 'MainMenu',
-  TimedoorProgram = 'TimedoorProgram',
-  SettingsProgram = 'SettingsProgram',
-  DirectoryProgram = 'DirectoryProgram',
-  MissMinutesProgram = 'MissMinutesProgram',
+  MainMenu = 'View:MainMenu',
+  Program = 'View:Program',
 }
 
-export interface ProgramCommandMenu {
-  headline: OptionText,
-  commands: ProgramCommandLabel[],
+export interface PlainRect {
+  top: number,
+  right: number,
+  bottom: number,
+  left: number,
+  height: number,
+  width: number,
+  x: number,
+  y: number,
 }
-
-export interface ProgramItem {
-  programId: ProgramId,
-  label: string,
-  svg: Svg,
-  menu: ProgramCommandMenu,
-};
 
 enum Orienation {
   Landscape = 'Landscape',
   Portrait = 'Portrait',
 }
 
+export interface MainMenuProgram {
+  svgRect: null | PlainRect,
+  visible: boolean,
+  iconStateId: OptionStateId,
+}
+
+export interface ProgramCommandInstance {
+  active: boolean,
+  disabled: boolean,
+  stateId: OptionStateId,
+  opcode: Opcode,
+  label: OptionText,
+}
+
+export interface ProgramInstance<ID extends ProgramId = ProgramId> {
+  programId: ID,
+  stateId: ProgramStateId,
+  commands: ProgramCommandInstance[],
+  commandLabel: OptionText,
+  iconSvg: SvgIcon,
+  iconLabel: OptionText,
+}
+
 export interface State {
+  programs: {
+    byId: { [ID in ProgramId]: ProgramInstance<ID> },
+  },
   ui: {
+    targetViewId: ViewId;
+    fadingViewIds: ViewId[];
     latency: number,
-    isFrozen: boolean,
     tempac: {
       // all in px
       orientation: Orienation,
       height: number;
       width: number;
       fontSize: number;
-    }
-    views: {
-      targetId: ViewId;
-      byId: {
-        [ViewId.MainMenu]: {
-          viewId: ViewId.MainMenu;
-          programs: {
-            target: null | {
-              isLoading: boolean,
-              programId: ProgramId,
-              state: ProgramStateId,
-            },
-            ids: ProgramId[], 
-            byId: Record<ProgramId, ProgramItem>,
-          },
-          defaultMenu: ProgramCommandMenu,
-        },
-        [ViewId.TimedoorProgram]: {
-          viewId: ViewId.TimedoorProgram;
-          //
-        },
-      }
-    }
+    },
+  },
+  views: {
+    [ViewId.MainMenu]: {
+      viewId: ViewId.MainMenu;
+      programs: {
+        targetId: null | ProgramId,
+        ids: ProgramId[],
+        byId: { [K in ProgramId]?: MainMenuProgram },
+      },
+      defaultCommands: ProgramCommandInstance[],
+      defaultCommandsLabel: OptionText,
+    },
+    [ViewId.Program]: {
+      viewId: ViewId.Program,
+      targetId: null | ProgramId;
+    },
   }
 };
 
-const optionCommandLabel: ProgramCommandLabel = {
-  opcode: Opcode.ExecuteProgramOptions,
+const optionCommandLabel: ProgramCommandInstance = {
+  active: false,
   disabled: true,
-  text: { before: '', hotkey: 'O', after: 'ptions' },
+  stateId: OptionStateId.None,
+  opcode: Opcode.ExecuteProgramOptions,
+  label: ['', 'O', 'ptions'],
 };
 
-const runProgramCommandLabel: ProgramCommandLabel = {
-  opcode: Opcode.ExecuteRunProgram,
+const runProgramCommandLabel: ProgramCommandInstance = {
+  active: false,
   disabled: true,
-  text: { before: '', hotkey: 'R', after: 'un Program' },
+  stateId: OptionStateId.None,
+  opcode: Opcode.ExecuteRunProgram,
+  label: ['', 'R', 'un Program'],
 }
 
-const clearCacheCommandLabel: ProgramCommandLabel = {
-  opcode: Opcode.ExecuteClearProgramCache,
+const clearCacheCommandLabel: ProgramCommandInstance = {
+  active: false,
   disabled: true,
-  text: { before: '', hotkey: 'C', after: 'lear Cache' },
+  stateId: OptionStateId.None,
+  opcode: Opcode.ExecuteClearProgramCache,
+  label: ['', 'C', 'lear Cache'],
 }
+
+const defaultCommands = [
+  optionCommandLabel,
+  runProgramCommandLabel,
+  clearCacheCommandLabel
+];
 
 
 export const initialState: State = {
+  programs: {
+    byId: {
+      [ProgramId.Timedoor]: {
+        programId: ProgramId.Timedoor,
+        stateId: ProgramStateId.None,
+        commands: defaultCommands,
+        commandLabel: ['', 'T', 'imedoor'],
+        iconSvg: SvgIcon.TimeDoor,
+        iconLabel: ['', '', 'Timedoor'],
+      },
+      [ProgramId.Settings]: {
+        programId: ProgramId.Settings,
+        stateId: ProgramStateId.None,
+        commands: defaultCommands,
+        commandLabel: ['', 'S', 'ettings'],
+        iconSvg: SvgIcon.Settings,
+        iconLabel: ['', '', 'Settings'],
+      },
+      [ProgramId.Directory]: {
+        programId: ProgramId.Directory,
+        stateId: ProgramStateId.None,
+        commands: defaultCommands,
+        commandLabel: ['', 'D', 'irectory'],
+        iconSvg: SvgIcon.Directory,
+        iconLabel: ['', '', 'Directory'],
+      },
+      [ProgramId.MissMinutes]: {
+        programId: ProgramId.MissMinutes,
+        stateId: ProgramStateId.None,
+        commands: defaultCommands,
+        commandLabel: ['', 'M', 'iss Minutes'],
+        iconSvg: SvgIcon.MissMinutes,
+        iconLabel: ['', '', 'Miss Minutes'],
+      },
+    },
+  },
   ui: {
     latency: 125,
-    isFrozen: false,
+    targetViewId: ViewId.MainMenu,
+    fadingViewIds: [],
     tempac: {
       orientation: Orienation.Portrait,
       height: 640,
       width: 360,
       fontSize: 16,
     },
-    views: {
-      targetId: ViewId.MainMenu,
-      byId: {
-        [ViewId.TimedoorProgram]: {
-          viewId: ViewId.TimedoorProgram,
-          //
-        },
-        [ViewId.MainMenu]: {
-          viewId: ViewId.MainMenu,
-          defaultMenu: {
-            headline: { before: '', hotkey: 'S', after: 'elect', },
-            commands: [
-              optionCommandLabel,
-              runProgramCommandLabel,
-              clearCacheCommandLabel,
-            ],
+  },
+  views: {
+    [ViewId.Program]: {
+      viewId: ViewId.Program,
+      targetId: null,
+    },
+    [ViewId.MainMenu]: {
+      viewId: ViewId.MainMenu,
+      defaultCommands: defaultCommands,
+      defaultCommandsLabel: ['', 'S', 'elect'],
+      programs: {
+        targetId: null,
+        ids: [
+          ProgramId.Timedoor,
+          ProgramId.Settings,
+          ProgramId.Directory,
+          ProgramId.MissMinutes
+        ],
+        byId: {
+          [ProgramId.Timedoor]: {
+            iconStateId: OptionStateId.None,
+            svgRect: null,
+            visible: true,
           },
-          programs: {
-            target: null,
-            ids: [
-              ProgramId.Timedoor,
-              ProgramId.Settings,
-              ProgramId.Directory,
-              ProgramId.MissMinutes
-            ],
-            byId: {
-              [ProgramId.Timedoor]: {
-                label: 'Timedoor',
-                svg: Svg.TimeDoor,
-                programId: ProgramId.Timedoor,
-                menu: {
-                  headline: { before: '', hotkey: 't', after: 'imedoor' },
-                  commands: [
-                    optionCommandLabel,
-                    runProgramCommandLabel,
-                    clearCacheCommandLabel,
-                  ]
-                },
-              },
-              [ProgramId.Settings]: {
-                label: 'Settings',
-                svg: Svg.Settings,
-                programId: ProgramId.Settings,
-                menu: {
-                  headline: { before: '', hotkey: 's', after: 'ettings' },
-                  commands: [
-                    optionCommandLabel,
-                    runProgramCommandLabel,
-                    clearCacheCommandLabel,
-                  ]
-                },
-              },
-              [ProgramId.Directory]: {
-                label: 'Directory',
-                svg: Svg.Directory,
-                programId: ProgramId.Directory,
-                menu: {
-                  headline: { before: '', hotkey: 'D', after: 'irectory' },
-                  commands: [
-                    optionCommandLabel,
-                    runProgramCommandLabel,
-                    clearCacheCommandLabel,
-                  ]
-                },
-              },
-              [ProgramId.MissMinutes]: {
-                label: 'Miss Minutes',
-                svg: Svg.MissMinutes,
-                programId: ProgramId.MissMinutes,
-                menu: {
-                  headline: { before: '', hotkey: 'M', after: 'iss Minutes' },
-                  commands: [
-                    optionCommandLabel,
-                    runProgramCommandLabel,
-                    clearCacheCommandLabel,
-                  ]
-                },
-              },
-            },
+          [ProgramId.Settings]: {
+            iconStateId: OptionStateId.None,
+            svgRect: null,
+            visible: true,
+          },
+          [ProgramId.Directory]: {
+            iconStateId: OptionStateId.None,
+            svgRect: null,
+            visible: true,
+          },
+          [ProgramId.MissMinutes]: {
+            iconStateId: OptionStateId.None,
+            svgRect: null,
+            visible: true,
           },
         },
       },
-    }
+    },
   },
 };
