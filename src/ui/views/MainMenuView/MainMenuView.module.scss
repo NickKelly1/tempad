@@ -1,7 +1,7 @@
 .main_menu_view {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   height: 100%;
   width: 100%;
@@ -9,12 +9,13 @@
 
 .program_icons {
   display: grid;
-  grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: center;
   gap: 16px;
   padding: 16px;
+}
+
+.program_icon {
+  aspect-ratio: 1;
 }
 
 .program_command_menu {
@@ -35,11 +36,6 @@
   margin: 0;
   padding: 0;
   list-style-position: inside;
-}
-
-.program_icon {
-  width: 100%;
-  height: 100%;
 }
 
 .program_command {

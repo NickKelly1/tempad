@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { $Selector } from "../../../store/selector";
 import { ClickHandler } from "../../components/Button/Button.types";
 import { MainMenuView } from "../MainMenuView/MainMenuView";
-import { ProgramId } from "../../../store/state";
 import { $Action } from "../../../store";
 import { MainMenuViewProps } from "../MainMenuView/MainMenuView.types";
 

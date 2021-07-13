@@ -63,9 +63,9 @@ export const Tempac: FC<TempacProps> = () => {
             className={styles.tempac}
             style={responsiveStyle}>
             <div className={styles.screen}>
-              <div className={styles.viewArea}>
+              <div className={styles.view_area}>
                 {/* current view */}
-                <div className={styles.viewContainer}>
+                <div className={styles.view_container}>
                   {(viewId === ViewId.MainMenu) && <MainMenuViewContainer />}
                   {(viewId === ViewId.Program) && <ProgramViewContainer />}
                 </div>
@@ -103,6 +103,6 @@ interface FadingViewProps {
 const FadingView: FC<FadingViewProps> = (props) => {
   const { render } = props;
   return (
-    <div className={styles.fadingView}>{render}</div>
+    <div className={styles.fading_view}>{render}</div>
   );
 }
