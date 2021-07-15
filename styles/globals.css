@@ -35,6 +35,8 @@ a {
   --primary-shadow: #cd7e4aff;
   --primary-light: #ffb685ff;
 
+  --font-size: 16px; /* changed from javascript */
+
   --spacing-1: 2px;
   --spacing-2: 4px;
   --spacing-3: 6px;
@@ -191,4 +193,57 @@ a {
 
 .hidden {
   visibility: hidden;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+
+  color: var(--primary);
+  text-shadow: 0 0 24px var(--primary-shadow);
+  background-color: black;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: var(--font-size);
+}
+
+button {
+  text-shadow: inherit;
+  text-transform: uppercase;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  outline: inherit;
+  display: block;
+}
+
+#modal-root {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#modal-root > * {
+  pointer-events: auto;
+}
+
+.fading {
+  animation: fading 1.5s forwards;
+  -moz-animation: fading 1.5s forwards;
+  pointer-events: none;
+}
+
+@keyframes fading {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    /* transform: scale(0, 0); */
+    opacity: 0;
+  }
 }

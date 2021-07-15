@@ -65,15 +65,8 @@ export function * setTargetProgram(programId: ProgramId) {
  * @param programId
  */
 export function * executeProgramCommand(programId: ProgramId, index: number) {
-  const corePrograms = yield * $select($Selector.Core.programsById);
   const coreCommands = yield * $select($Selector.Core.commandsByProgramId);
-  const menuPrograms = yield * $select($Selector.MainMenuView.programsById);
-
   const commands = coreCommands[programId];
-  const coreProgram = corePrograms[programId];
-  const menuProgram = menuPrograms[programId];
-
-  if (!menuProgram) return;
   if (index >= commands.instances.length) return;
 
   switch(commands.instances[index].opcode) {
@@ -81,7 +74,7 @@ export function * executeProgramCommand(programId: ProgramId, index: number) {
       break;
     }
     case Opcode.ExecuteRunProgram: {
-      put($Action.MainMenuView.handleRunProgram({ programId }));
+      yield put($Action.MainMenuView.handleRunProgram({ programId }));
       break;
     }
     case Opcode.ExecuteClearProgramCache: {
@@ -91,8 +84,5 @@ export function * executeProgramCommand(programId: ProgramId, index: number) {
 }
 
 export function * runProgram(programId: ProgramId) {
-  // const programs = yield * $select($Selector.MainMenuView.programAggregates);
-  // const program = programs.byId[programId];
-  // if (!program) return;
-  yield put($Action.MainMenuView.runProgram({ programId }));
+  yield put($Action.MainMenuView.setRunningProgram({ programId }));
 }

@@ -1,13 +1,10 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { MainMenuViewContainerProps } from "./MainMenuViewContainer.types";
 import { useDispatch, useSelector } from "react-redux";
 import { $Selector } from "../../../store/selector";
-import { ClickHandler } from "../../components/Button/Button.types";
 import { MainMenuView } from "../MainMenuView/MainMenuView";
 import { $Action } from "../../../store";
 import { MainMenuViewProps } from "../MainMenuView/MainMenuView.types";
-import { ProgramId } from "../../../store/state";
-import { useValueRef } from "../../hooks/use-value-ref";
 
 export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
   const state = useSelector($Selector.self);
@@ -96,15 +93,17 @@ export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
     targetProgramId,
   ]);
 
-  return <MainMenuView
-    // defaultMenuCommandLabel={mainMenu.defaultCommandsLabel}
-    // defaultMenuCommands={mainMenu.defaultCommands}
-    programs={programs}
-    commandLabel={commandLabel}
-    commands={commands}
-    targetProgramId={targetProgramId}
-    // targetProgramId={targetProgramAggregate?.programId ?? null}
-    // onProgramCommandClick={handleCommandClick}
-    // onProgramIconClick={handleProgramIconClick}
-  />
+  useEffect(() => {
+    //
+  }, [mainMenu.programs.executing]);
+
+  return (
+    <MainMenuView
+      executing={mainMenu.programs.executing}
+      programs={programs}
+      commandLabel={commandLabel}
+      commands={commands}
+      targetProgramId={targetProgramId}
+    />
+  );
 }

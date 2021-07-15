@@ -7,15 +7,7 @@ import styles from './ProgramIcon.module.scss';
 import { getSvgIcon } from "../../../util/svg-icon";
 import { useRefEffect } from "../../hooks/use-ref-effect";
 import { PlainRect, ProgramId } from "../../../store/state";
-
-function getSvgNode(btn: HTMLButtonElement) {
-  const svgNode = btn.querySelector(`svg.${styles.icon}`);
-  if (!svgNode) {
-    console.error('failed to find svgNode');
-    return null;
-  }
-  return svgNode;
-}
+import { useValueRef } from "../../hooks/use-value-ref";
 
 export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
   const {
@@ -31,9 +23,12 @@ export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
 
   const IconSvg = getSvgIcon(iconSvg)
 
+  const handleIconRectChange = useValueRef(onIconRectChange);
+
   const [containerRef] = useRefEffect<HTMLDivElement>((containerNode) => {
-    if (!onIconRectChange) return;
     const robserver = new ResizeObserver((resizes) => {
+      const changeHandler = handleIconRectChange.current;
+      if (!changeHandler) return;
       resizes.forEach(resize => {
         if (resize.target != containerNode) return;
         const _rect = containerNode.getBoundingClientRect();
@@ -47,12 +42,12 @@ export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
           x: _rect.x,
           y: _rect.y,
         };
-        onIconRectChange(rect);
+        changeHandler(rect);
       })
     });
     robserver.observe(containerNode);
     return () => robserver.disconnect();
-  }, [onIconRectChange]);
+  }, [handleIconRectChange]);
 
   return (
     <div
@@ -73,6 +68,6 @@ export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
       </Button>
     </div>
   );
-})
+});
 
 ProgramIcon.displayName = 'ProgramIcon';

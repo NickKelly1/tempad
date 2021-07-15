@@ -1,8 +1,8 @@
-import { DependencyList, MutableRefObject, RefCallback, useCallback, useEffect, useRef } from "react";
+import { DependencyList, MutableRefObject, RefCallback, RefObject, useCallback, useEffect, useRef } from "react";
 
 interface Destructor { (): void }
 
-type UseRefReturn<T> = [cb: RefCallback<T>, node: MutableRefObject<T | null>];
+type UseRefReturn<T> = [cb: RefCallback<T>, node: RefObject<T>];
 
 export function useRefEffect<T>(
   effect: (instance: T) => (void | Destructor),
@@ -10,7 +10,7 @@ export function useRefEffect<T>(
 ): UseRefReturn<T> {
   const lastDestructor = useRef<null | Destructor>(null);
 
-  const mutRef: MutableRefObject<T | null> = useRef<T | null>(null);
+  const mutRef: MutableRefObject<T | null> = useRef<T>(null);
 
   // @note: callback refs are destructed (called with node = null)
   // EVERY time before they're re-bound by the element

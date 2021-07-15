@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { $Action } from "..";
-import { State, ViewId } from "../state";
+import { ProgramStateId, State, ViewId } from "../state";
 
 export const reduce = (builder: ActionReducerMapBuilder<State>) => {
   builder.addCase($Action.MainMenuView.iconRectChanged, (state, action) => {
@@ -25,9 +25,22 @@ export const reduce = (builder: ActionReducerMapBuilder<State>) => {
     state.views[ViewId.MainMenu].programs.targetId = programId;
   });
 
-  builder.addCase($Action.MainMenuView.runProgram, (state, action) => {
+  builder.addCase($Action.MainMenuView.setRunningProgram, (state, action) => {
     const { payload } = action;
     const { programId } = payload;
-    state.views[ViewId.MainMenu].programs.targetId = programId;
+    state.views[ViewId.MainMenu].programs.executing = {
+      programId,
+      stateId: ProgramStateId.Uninitialised,
+    };
+  });
+
+  builder.addCase($Action.MainMenuView.setProgramInitialising, (state, action) => {
+    const { payload } = action;
+    const { programId, percentage } = payload;
+    state.views[ViewId.MainMenu].programs.executing = {
+      programId,
+      stateId: ProgramStateId.Initialising,
+      percentage,
+    };
   });
 };

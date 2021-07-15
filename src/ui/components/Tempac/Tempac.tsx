@@ -1,5 +1,5 @@
 import styles from './Tempac.module.scss'
-import React, { FC, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { $Selector } from '../../../store/selector';
@@ -54,10 +54,17 @@ export const Tempac: FC<TempacProps> = () => {
   const width = ui.tempac.width;
   const fontSize = ui.tempac.fontSize;
 
+  useEffect(() => {
+    console.log('font size change');
+    document
+      .documentElement
+      .style
+      .setProperty('--font-size', `${fontSize.toFixed(0)}px`);
+  }, [fontSize]);
+
   const responsiveStyle = {
     height: `${height}px`,
     width: `${width}px`,
-    fontSize: `${fontSize}px`,
   };
 
   const viewId = ui.targetViewId;

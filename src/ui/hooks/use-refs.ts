@@ -1,4 +1,5 @@
 import { DependencyList, LegacyRef, MutableRefObject, Ref, RefCallback, useCallback, useEffect, useRef } from "react";
+import { setRef } from "../../util/set-ref";
 
 interface MergeRef<T> extends React.RefCallback<T> {
   // use _current instead of current in-case
@@ -19,19 +20,8 @@ export function useRefs<T>(...refs: Ref<T>[]): MergeRef<T | null> {
   const innerRef: MergeRef<T> = useCallback(((node) => {
     // https://reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
     rememberRef.current = node;
-    refs.forEach(ref => {
-      if (!ref) return;
-      switch (typeof ref) {
-        case 'function': {
-          ref(node);
-          break;
-        }
-        case 'object': {
-          innerRef._current = node;
-          break;
-        }
-      }
-    })
+    refs.forEach(setRef(node));
+    innerRef._current = node;
   }) as MergeRef<T>, refs);
 
   // initialise current to null

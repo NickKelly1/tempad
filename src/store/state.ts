@@ -10,7 +10,7 @@ export enum ProgramId {
 export type OptionText = [before: string, hotkey: string, after: string];
 
 export enum ProgramStateId {
-  None = 'ProgramState:None',
+  Uninitialised = 'ProgramState:Uninitialised',
   Initialising = 'ProgramState:Initialising',
   Ready = 'ProgramState:Ready',
 }
@@ -48,11 +48,35 @@ enum Orienation {
   Portrait = 'Portrait',
 }
 
-export interface MainMenuProgram {
+export interface MainMenuProgramOption {
   svgRect: null | PlainRect,
   visible: boolean,
   iconStateId: OptionStateId,
 }
+
+
+export interface BaseExecutingProgram<StateId extends ProgramStateId = ProgramStateId> {
+  stateId: StateId;
+}
+
+export interface ExecutingProgramUninitialised
+  extends BaseExecutingProgram<ProgramStateId.Uninitialised> {
+  programId: ProgramId,
+}
+export interface ExecutingProgramInitialising
+  extends BaseExecutingProgram<ProgramStateId.Initialising> {
+  programId: ProgramId,
+  percentage: number,
+}
+export interface ExecutingProgramReady
+  extends BaseExecutingProgram<ProgramStateId.Ready> {
+  programId: ProgramId,
+}
+
+export type ProgramState =
+  | ExecutingProgramUninitialised
+  | ExecutingProgramInitialising
+  | ExecutingProgramReady
 
 export interface ProgramCommandInstance {
   active: boolean,
@@ -107,8 +131,9 @@ export interface State {
       viewId: ViewId.MainMenu;
       programs: {
         targetId: null | ProgramId,
+        executing: null | ProgramState,
         ids: ProgramId[],
-        byId: { [K in ProgramId]?: MainMenuProgram },
+        byId: { [K in ProgramId]?: MainMenuProgramOption },
       },
       defaultCommands: ProgramCommandInstance[],
       defaultCommandsLabel: OptionText,
@@ -165,7 +190,7 @@ export const initialState: State = {
           programId: ProgramId.Timedoor,
           instance: {
             programId: ProgramId.Timedoor,
-            stateId: ProgramStateId.None,
+            stateId: ProgramStateId.Uninitialised,
             iconSvg: SvgIcon.TimeDoor,
             iconLabel: ['', '', 'Timedoor'],
           },
@@ -174,7 +199,7 @@ export const initialState: State = {
           programId: ProgramId.Settings,
           instance: {
             programId: ProgramId.Settings,
-            stateId: ProgramStateId.None,
+            stateId: ProgramStateId.Uninitialised,
             iconSvg: SvgIcon.Settings,
             iconLabel: ['', '', 'Settings'],
           },
@@ -183,7 +208,7 @@ export const initialState: State = {
           programId: ProgramId.Directory,
           instance: {
             programId: ProgramId.Directory,
-            stateId: ProgramStateId.None,
+            stateId: ProgramStateId.Uninitialised,
             iconSvg: SvgIcon.Directory,
             iconLabel: ['', '', 'Directory'],
           },
@@ -192,7 +217,7 @@ export const initialState: State = {
           programId: ProgramId.MissMinutes,
           instance: {
             programId: ProgramId.MissMinutes,
-            stateId: ProgramStateId.None,
+            stateId: ProgramStateId.Uninitialised,
             iconSvg: SvgIcon.MissMinutes,
             iconLabel: ['', '', 'Miss Minutes'],
           },
@@ -245,6 +270,7 @@ export const initialState: State = {
       defaultCommands: defaultCommands,
       defaultCommandsLabel: ['', 'S', 'elect'],
       programs: {
+        executing: null,
         targetId: null,
         ids: [
           ProgramId.Timedoor,

@@ -1,8 +1,10 @@
-import { MainMenuProgram, OptionText, ProgramCommandInstance, ProgramId, ProgramInstance } from "../../../store/state";
+import { MainMenuProgramOption, OptionText, ProgramCommandInstance, ProgramId, ProgramInstance, ProgramState } from "../../../store/state";
 import { SvgIcon } from "../../../util/svg-icon";
 import { ClickHandler } from "../../components/Button/Button.types";
 
 export interface MainMenuViewProps {
+  executing: null | ProgramState,
+
   targetProgramId: null | ProgramId;
 
   programs: {
@@ -11,7 +13,7 @@ export interface MainMenuViewProps {
       key: string,
       programId: ProgramId,
       instance: ProgramInstance,
-      mainMenu: MainMenuProgram,
+      mainMenu: MainMenuProgramOption,
       onClick: undefined | ClickHandler,
     } },
   },

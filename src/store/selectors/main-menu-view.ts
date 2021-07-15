@@ -1,5 +1,5 @@
 import { createDraftSafeSelector } from "@reduxjs/toolkit";
-import { MainMenuProgram, OptionStateId, OptionText, ProgramCommandInstance, ProgramId, ProgramInstance, State, ViewId } from "../state";
+import { MainMenuProgramOption, OptionStateId, OptionText, ProgramCommandInstance, ProgramId, ProgramInstance, State, ViewId } from "../state";
 
 const root = (state: State): State => state;
 
@@ -16,7 +16,7 @@ export const self = createDraftSafeSelector(
 /**
  * programs
  */
-export type programsById = { [ID in ProgramId]?: MainMenuProgram };
+export type programsById = { [ID in ProgramId]?: MainMenuProgramOption };
 export const programsById = createDraftSafeSelector(
   self,
   (_self): programsById => _self.programs.byId,

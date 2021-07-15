@@ -4,7 +4,7 @@ import { $Selector } from "../../../store/selector";
 import { MainMenuProgramIconContainerProps } from "./MainMenuProgramIconContainer.types";
 import { ClickHandler } from "../Button/Button.types";
 import { ProgramIcon } from "../ProgramIcon/ProgramIcon";
-import { OptionStateId, PlainRect, ProgramStateId, State } from "../../../store/state";
+import { PlainRect, } from "../../../store/state";
 
 import styles from "./MainMenuProgramIconContainer.module.scss";
 import clsx from "clsx";
