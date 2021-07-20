@@ -1,28 +1,30 @@
-import { call, takeEvery } from "redux-saga/effects";
+import { all, takeEvery, takeLatest } from "redux-saga/effects";
 import { $Action, $Saga } from "../..";
 
 export function * watchers() {
-  yield takeEvery(
-    $Action.Ui.handleResize,
-    function * (action) {
-      const { payload } = action;
-      const { height, width } = payload;
-      yield call($Saga
+  yield all([
+    takeLatest(
+      $Action.Ui.handleResize,
+      ({ payload: { height, width } }) => $Saga
         .Services
         .Ui
-        .resizeTempac, { height, width });
-    }
-  );
+        .resizeTempad({ height, width })
+    ),
 
-  yield takeEvery(
-    $Action.Ui.handleFocus,
-    function * (action) {
-      const { payload } = action;
-      const { height, width } = payload;
-      yield call($Saga
+    takeLatest(
+      $Action.Ui.handleFocus,
+      ({ payload: { height, width } }) => $Saga
         .Services
         .Ui
-        .resizeTempac, { height, width });
-    }
-  );
-}
+        .resizeTempad({ height, width })
+    ),
+
+  //   takeEvery(
+  //     $Action.Core.handleProgramStarting,
+  //     ({ payload: { programId } }) => $Saga
+  //       .Services
+  //       .Ui
+  //       .handleProgramStarting(programId)
+  //   )
+  ]);
+};

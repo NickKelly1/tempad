@@ -24,23 +24,4 @@ export const reduce = (builder: ActionReducerMapBuilder<State>) => {
     const { programId } = payload;
     state.views[ViewId.MainMenu].programs.targetId = programId;
   });
-
-  builder.addCase($Action.MainMenuView.setRunningProgram, (state, action) => {
-    const { payload } = action;
-    const { programId } = payload;
-    state.views[ViewId.MainMenu].programs.executing = {
-      programId,
-      stateId: ProgramStateId.Uninitialised,
-    };
-  });
-
-  builder.addCase($Action.MainMenuView.setProgramInitialising, (state, action) => {
-    const { payload } = action;
-    const { programId, percentage } = payload;
-    state.views[ViewId.MainMenu].programs.executing = {
-      programId,
-      stateId: ProgramStateId.Initialising,
-      percentage,
-    };
-  });
 };

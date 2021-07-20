@@ -1,23 +1,15 @@
 
 import { createAction } from "@reduxjs/toolkit";
-import { PlainRect, ProgramId, ProgramStateId } from "../state";
+import { PlainRect, ProgramId } from "../state";
+
+export const handleStartProgram = createAction<{
+  programId: ProgramId,
+}>('MainMenuView:HandleStartProgram');
+
 
 export const handleSetTargetProgram = createAction<{
   programId: ProgramId,
 }>('MainMenuView:HandleSetTargetProgram');
-
-export const handleExecuteProgramCommand = createAction<{
-  programId: ProgramId,
-  index: number,
-}>('MainMenuView:HandleExecuteProgramCommand');
-
-export const handleRunProgram = createAction<{
-  programId: ProgramId,
-}>('MainMenuView:HandleRunProgram');
-
-// export const runProgram = createAction<{
-//   programId: ProgramId,
-// }>('MainMenuView:RunProgram');
 
 export const loadingTargetProgram = createAction<{
   percentage: number,
@@ -45,3 +37,8 @@ export const setProgramInitialising = createAction<{
   programId: ProgramId,
   percentage: number,
 }>('MainMenuView:SetProgramInitialising');
+
+export const setProgramCommandState = createAction<{
+  programId: ProgramId,
+  index: number,
+}>('MainMenuView:HandleExecuteProgramCommand');

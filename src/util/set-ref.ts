@@ -1,4 +1,4 @@
-import { LegacyRef, Ref } from "react";
+import { Ref } from "react";
 
 export function setRef<T>(node: T | null) {
   return function doSetRef(ref: null | Ref<T>) {

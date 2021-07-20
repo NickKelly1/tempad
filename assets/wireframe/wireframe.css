@@ -73,7 +73,7 @@ h1, h2 {
   justify-content: center;
 }
 
-#tempac {
+#tempad {
   background-color: rgb(10, 30, 60);
   height: 100%;
   width: 100%;
@@ -85,15 +85,15 @@ h1, h2 {
   align-items: space-between; */
 }
 
-#tempac #programs {
+#tempad #programs {
   /* flex-grow: 40; */
 }
 
-#tempac #menu {
+#tempad #menu {
   /* flex-grow: 40; */
 }
 
-#tempac #footer {
+#tempad #footer {
   /* flex-grow: 10; */
 }
 

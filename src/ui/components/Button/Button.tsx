@@ -7,9 +7,8 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { useValueRef } from '../../hooks/use-value-ref';
-import { useRefs } from '../../hooks/use-refs';
 import { ButtonProps } from './Button.types';
+import { useMergeRefs, useValueRef } from '@nkp/hooks';
 
 const DOUBLE_CLICK_THRESHOLD = 200;
 
@@ -30,11 +29,11 @@ export const Button = memo(forwardRef((
   } = props;
 
   // reference singleClick
-  const onDoubleClick = useValueRef(props._onDoubleClick);
-  const onSingleClick = useValueRef(props._onSingleClick);
+  const _onDoubleClick = useValueRef(props._onDoubleClick);
+  const _onSingleClick = useValueRef(props._onSingleClick);
   const _onClick = useValueRef(props.onClick);
 
-  const innerRef = useRefs(outerRef);
+  const innerRef = useMergeRefs(outerRef);
 
   interface LastClick { at: number; timer: ReturnType<typeof setTimeout>; }
   const lastClick = useRef<null | LastClick>(null);
@@ -47,17 +46,17 @@ export const Button = memo(forwardRef((
       lastClick.current = { at: now, timer: setTimeout(() => {
         // single click successful - clear pending
         lastClick.current = null;
-        onSingleClick.current?.(evt);
+        _onSingleClick.current?.(evt);
       }, DOUBLE_CLICK_THRESHOLD)};
       _onClick.current?.(evt, { isDoubleClick: false });
     } else {
       // has been clicked already
       clearTimeout(lastClick.current.timer);
       lastClick.current = null;
-      onDoubleClick.current?.(evt);
+      _onDoubleClick.current?.(evt);
       _onClick.current?.(evt, { isDoubleClick: true });
     }
-  }, [_onClick, onSingleClick, onDoubleClick]);
+  }, [_onClick, _onSingleClick, _onDoubleClick]);
 
 
   return (

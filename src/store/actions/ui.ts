@@ -13,10 +13,10 @@ export const handleFocus = createAction<{
 }>('Ui:HandleFocus');
 
 
-export const resizeTempac = createAction<{
+export const resizeTempad = createAction<{
   height: number,
   width: number,
-}>('Ui:ResizeTempac');
+}>('Ui:ResizeTempad');
 
 export const setViewFading = createAction<{
   viewId: ViewId,

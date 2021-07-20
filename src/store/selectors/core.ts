@@ -20,7 +20,8 @@ export type programs = ProgramContainer[];
 export const programs = createDraftSafeSelector(
   self,
   (_self): programs => _self
-    .programIds
+    .programs
+    .ids
     .map(programId => _self
       .programs
       .byId[programId]));
@@ -36,7 +37,7 @@ export const programsById = createDraftSafeSelector(
 /**
  * Commands By Program Id
  */
-export type commandsByProgramId = State['core']['commands']['byId'];
+export type commandsByProgramId = State['core']['commands']['byProgramId'];
 export const commandsByProgramId = createDraftSafeSelector(
   self,
-  (_self): commandsByProgramId => _self.commands.byId)
+  (_self): commandsByProgramId => _self.commands.byProgramId)

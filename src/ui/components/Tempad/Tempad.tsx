@@ -1,35 +1,35 @@
-import styles from './Tempac.module.scss'
+import styles from './Tempad.module.scss'
 import React, { FC, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { $Selector } from '../../../store/selector';
 import { ViewId } from '../../../store/state';
-import { TempacProps } from './Tempac.types';
+import { TempadProps } from './Tempad.types';
 import Head from 'next/head';
-import { tempacDimensions } from '../../../util/handle-resize';
-import { useLayoutEffect } from '../../hooks/use-layout-effect';
+import { tempadDimensions } from '../../../util/tempad-dimensions';
+import { useClayoutEffect } from '@nkp/hooks';
 import { ProgramViewContainer } from '../../views/ProgramViewContainer/ProgramViewContainer';
 import { MainMenuViewContainer } from '../../views/MainMenuViewContainer/MainMenuViewContainer';
 import { $Action } from '../../../store';
 
 
-export const Tempac: FC<TempacProps> = () => {
+export const Tempad: FC<TempadProps> = () => {
   const ui = useSelector($Selector.Ui.self);
 
   const maximums = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
   // resize on first load
-  useLayoutEffect(() => {
+  useClayoutEffect(() => {
     if (!maximums.current) return;
     dispatch($Action
       .Ui
-      .handleFocus(tempacDimensions(maximums.current)));
+      .handleFocus(tempadDimensions(maximums.current)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // resize on page resizes
-  useLayoutEffect(() => {
+  useClayoutEffect(() => {
     window.addEventListener('resize', handleResize);
     window.addEventListener('focus', handleFocus);
     return () => {
@@ -40,19 +40,19 @@ export const Tempac: FC<TempacProps> = () => {
       if (!maximums.current) return;
       dispatch($Action
         .Ui
-        .handleResize(tempacDimensions(maximums.current)));
+        .handleResize(tempadDimensions(maximums.current)));
     }
     function handleFocus() {
       if (!maximums.current) return;
       dispatch($Action
         .Ui
-        .handleFocus(tempacDimensions(maximums.current)));
+        .handleFocus(tempadDimensions(maximums.current)));
     }
   }, [dispatch]);
 
-  const height = ui.tempac.height;
-  const width = ui.tempac.width;
-  const fontSize = ui.tempac.fontSize;
+  const height = ui.tempad.height;
+  const width = ui.tempad.width;
+  const fontSize = ui.tempad.fontSize;
 
   useEffect(() => {
     console.log('font size change');
@@ -74,20 +74,20 @@ export const Tempac: FC<TempacProps> = () => {
     // full page
     <div className={styles.page}>
       <Head>
-        <title>Tempac</title>
-        <meta name="description" content="Tempac from the show 'Loki' on Disney+." />
+        <title>Tempad</title>
+        <meta name="description" content="Tempad from the show 'Loki' on Disney+." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.frame}>
         <div ref={maximums} className={styles.maximums}>
           <main
-            className={styles.tempac}
+            className={styles.tempad}
             style={responsiveStyle}>
             <div className={styles.screen}>
               <div className={styles.view_area}>
                 {/* current view */}
                 <div className={styles.view_container}>
-                  {(viewId === ViewId.MainMenu) && <MainMenuViewContainer />}
+                  {(viewId === ViewId.MainMenu) && <MainMenuViewContainer isFading={false} />}
                   {(viewId === ViewId.Program) && <ProgramViewContainer />}
                 </div>
                 {/* fading views */}
@@ -96,7 +96,7 @@ export const Tempac: FC<TempacProps> = () => {
                     case ViewId.MainMenu: return (
                       <FadingView
                         key={fadingViewId}
-                        render={<MainMenuViewContainer />}
+                        render={<MainMenuViewContainer isFading={true} />}
                       />
                     );
                     default: return null;

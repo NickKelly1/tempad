@@ -6,14 +6,14 @@ const e_body = document.getElementsByTagName('body')[0];
 const e_page = document.getElementById('page');
 const e_responsive = document.getElementById('responsive');
 const e_content = document.getElementById('content');
-const e_tempac = document.getElementById('tempac');
+const e_tempad = document.getElementById('tempad');
 const e_info = document.getElementById('info');
 
 /** @type {DOMRect} */ let rect_body;
 /** @type {DOMRect} */ let rect_page;
 /** @type {DOMRect} */ let rect_responsive;
 /** @type {DOMRect} */ let rect_content;
-/** @type {DOMRect} */ let rect_tempac;
+/** @type {DOMRect} */ let rect_tempad;
 /** @type {DOMRect} */ let rect_info;
 updateRects();
 
@@ -30,10 +30,10 @@ function updateRects() {
   rect_page = e_page.getBoundingClientRect();
   rect_responsive = e_responsive.getBoundingClientRect();
   rect_content = e_content.getBoundingClientRect();
-  rect_tempac = e_tempac.getBoundingClientRect();
+  rect_tempad = e_tempad.getBoundingClientRect();
   rect_info = e_info.getBoundingClientRect()
 
-  // maintain aspect ratio of tempac
+  // maintain aspect ratio of tempad
 
   const maxHeight = rect_content.height;
   const maxWidth = rect_content.width;
@@ -50,11 +50,11 @@ function updateRects() {
     fin_height = nextHeight;
     fin_width = maxWidth;
   }
-  e_tempac.style.height = `${fin_height}px`;
-  e_tempac.style.width = `${fin_width}px`;
+  e_tempad.style.height = `${fin_height}px`;
+  e_tempad.style.width = `${fin_width}px`;
   e_body.style.fontSize = `${Math.round(fin_width / 23)}px`;
-  console.log(e_tempac.style.height);
-  console.log(e_tempac.style.width);
+  console.log(e_tempad.style.height);
+  console.log(e_tempad.style.width);
   // e_body.style.fontSize = `${}px`;
 }
 
@@ -79,7 +79,7 @@ function updateInfo() {
             ['pag', rect_page],
             ['res', rect_responsive],
             ['cont', rect_content],
-            ['tmp', rect_tempac],
+            ['tmp', rect_tempad],
             ['inf', rect_info]
           ].map(
             /** @param {[string, DOMRect]} arg */

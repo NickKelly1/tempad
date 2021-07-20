@@ -228,11 +228,12 @@ button {
   bottom: 0;
 }
 
-#modal-root > * {
+#modal-root>* {
   pointer-events: auto;
 }
 
 .fading {
+  pointer-events: none;
   animation: fading 1.5s forwards;
   -moz-animation: fading 1.5s forwards;
   pointer-events: none;
@@ -246,4 +247,8 @@ button {
     /* transform: scale(0, 0); */
     opacity: 0;
   }
+}
+
+.pe-none {
+  pointer-events: none !important;
 }

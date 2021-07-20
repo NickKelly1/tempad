@@ -1,9 +1,9 @@
-import { MainMenuProgramOption, OptionText, ProgramCommandInstance, ProgramId, ProgramInstance, ProgramState } from "../../../store/state";
+import { MainMenuProgramOption, OptionText, PlainRect, ProgramCommandInstance, ProgramId, ProgramInstance, ProgramState } from "../../../store/state";
 import { SvgIcon } from "../../../util/svg-icon";
 import { ClickHandler } from "../../components/Button/Button.types";
 
 export interface MainMenuViewProps {
-  executing: null | ProgramState,
+  isFading: boolean;
 
   targetProgramId: null | ProgramId;
 
@@ -14,7 +14,8 @@ export interface MainMenuViewProps {
       programId: ProgramId,
       instance: ProgramInstance,
       mainMenu: MainMenuProgramOption,
-      onClick: undefined | ClickHandler,
+      onClick?: ClickHandler,
+      onIconRectChange?: (rect: DOMRect) => unknown,
     } },
   },
 
@@ -24,4 +25,5 @@ export interface MainMenuViewProps {
     instance: ProgramCommandInstance,
     onClick: undefined | ClickHandler,
   }[],
+
 }

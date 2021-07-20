@@ -4,14 +4,35 @@ import { SvgIcon } from "../../../util/svg-icon";
 import { useDispatch, useSelector } from "react-redux";
 import { $Selector } from "../../../store/selector";
 import { INVALID_STATE } from "../../../util/invalid-state";
-import { PlainRect } from "../../../store/state";
+import { PlainRect, ProgramViewState, State } from "../../../store/state";
 import { ProgramView } from "../ProgramView/ProgramView";
 
-
 export const ProgramViewContainer: FC<ProgramViewContainerProps> = (props) => {
+  const programView = useSelector($Selector.ProgramView.self);
+  const state = programView.state;
+  if (!state) return null;
+  return <InnerProgramViewContainer state={state} />
+}
+
+interface InnerProgramViewContainerProps {
+  state: ProgramViewState;
+}
+
+const InnerProgramViewContainer: FC<InnerProgramViewContainerProps> = (props) => {
+  const {
+    state,
+  } = props;
+
   const dispatch = useDispatch();
 
-  return null;
+  const program = useSelector($Selector.Core.programsById)[state.programId];
+
+  return (
+    <ProgramView
+      startingIconRect={state.iconRect}
+      program={program}
+    />
+  );
 
   // const targetProgram = useSelector($Selector.Views.Program.targetProgram);
   // if (!targetProgram) {

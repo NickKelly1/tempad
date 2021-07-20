@@ -1,0 +1,108 @@
+@import '../styles/global.scss';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: VCR OSD Mono, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* font-family: Press Start; */
+  background-color: black;
+  color: var(--primary);
+  overflow: hidden;
+  // font-size: 1.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#main-content {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#tempad-container {
+  padding: 16px;
+}
+
+#tempad {
+  position: relative;
+  border: 8px solid var(--primary);
+  height: 100%;
+  width: 100%;
+}
+
+#background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url(/static/grid.svg);
+  filter: blur(2px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+
+#layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.landscape {
+  #layout {
+    flex-direction: row;
+  }
+}
+
+#icons {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-gap: 16px;
+  padding: 16px;
+  grid-template-areas:
+    "timedoor settings"
+    "directory missminutes";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows:
+    1fr
+    1fr;
+
+  .icon {
+    &.timedoor { grid-area: timedoor; }
+    &.settings { grid-area: settings; }
+    &.directory { grid-area: directory; }
+    &.missminutes { grid-area: missminutes; }
+  }
+}
+
+.portrait #icons {
+  width: 100%;
+}
+
+.landscape #icons {
+  height: 100%;
+}
+
+[data-svg] {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  svg {
+    position: absolute;
+    max-height: 100%;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

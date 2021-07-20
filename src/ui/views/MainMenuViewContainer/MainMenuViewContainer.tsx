@@ -1,12 +1,17 @@
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import { MainMenuViewContainerProps } from "./MainMenuViewContainer.types";
 import { useDispatch, useSelector } from "react-redux";
 import { $Selector } from "../../../store/selector";
 import { MainMenuView } from "../MainMenuView/MainMenuView";
 import { $Action } from "../../../store";
 import { MainMenuViewProps } from "../MainMenuView/MainMenuView.types";
+import { toPlainRect } from "../../../util/to-plain-rect";
 
-export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
+export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = (props) => {
+  const {
+    isFading,
+  } = props;
+
   const state = useSelector($Selector.self);
   const mainMenu = useSelector($Selector.MainMenuView.self);
   const dispatch = useDispatch();
@@ -25,6 +30,11 @@ export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
         programId,
         instance: state.core.programs.byId[programId].instance,
         mainMenu: mainMenu.programs.byId[programId]!,
+        onIconRectChange(rect) {
+          dispatch($Action
+            .MainMenuView
+            .iconRectChanged({ programId, rect: toPlainRect(rect), }));
+        },
         onClick(_) {
           if (programId === targetProgramId) return;
           dispatch($Action
@@ -56,14 +66,14 @@ export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
       result = state
         .core
         .commands
-        .byId[targetProgramId]
+        .byProgramId[targetProgramId]
         .instances
         .map((command, index) => ({
           key: `command:${targetProgramId}:${index}`,
           instance: command,
           onClick() {
             dispatch($Action
-              .MainMenuView
+              .Core
               .handleExecuteProgramCommand({
                 index,
                 programId: targetProgramId,
@@ -75,7 +85,7 @@ export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
   }, [
     dispatch,
     mainMenu.defaultCommands,
-    state.core.commands.byId,
+    state.core.commands.byProgramId,
     targetProgramId,
   ]);
 
@@ -84,22 +94,18 @@ export const MainMenuViewContainer: FC<MainMenuViewContainerProps> = () => {
     if (targetProgramId == null) {
       result = mainMenu.defaultCommandsLabel;
     } else {
-      result = state.core.commands.byId[targetProgramId].label;
+      result = state.core.commands.byProgramId[targetProgramId].label;
     }
     return result;
   }, [
     mainMenu.defaultCommandsLabel,
-    state.core.commands.byId,
+    state.core.commands.byProgramId,
     targetProgramId,
   ]);
 
-  useEffect(() => {
-    //
-  }, [mainMenu.programs.executing]);
-
   return (
     <MainMenuView
-      executing={mainMenu.programs.executing}
+      isFading={isFading}
       programs={programs}
       commandLabel={commandLabel}
       commands={commands}

@@ -5,8 +5,8 @@ const ASPECT_RATIO = 16 / 9;
 
 
 type Dimensions = { width: number, height: number }
-export function tempacDimensions(maximums: HTMLDivElement): Dimensions {
-  // maintain aspect ratio of tempac
+export function tempadDimensions(maximums: HTMLDivElement): Dimensions {
+  // maintain aspect ratio of tempad
   const maxDimensions = maximums.getBoundingClientRect();
   const maxHeight = maxDimensions.height;
   const maxWidth = maxDimensions.width;

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 84.666663 95.250003"
+   height="360"
+   width="320">
+  <defs
+     id="defs2">
+    <filter
+       height="1.1012501"
+       y="-0.050625"
+       width="1.1472727"
+       x="-0.07363636"
+       id="filter912"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur914"
+         stdDeviation="1.7859375" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-40.216667)"
+     id="layer5">
+    <path
+       d="M 13.229166,130.175 V 50.800003 H 66.145831 V 130.175 Z m 5.291666,-5.29167 V 45.508336 H 71.4375 V 124.88333 Z M 13.229166,50.800003 18.520832,45.508336 M 66.145831,50.800003 71.4375,45.508336 M 66.145831,130.175 71.4375,124.88333 m -58.208334,5.29167 5.291666,-5.29167"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path846" />
+    <path
+       id="path894"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter912)"
+       d="M 13.229167,130.175 V 50.8 h 52.916666 v 79.375 z m 5.291666,-5.29167 V 45.508333 H 71.4375 V 124.88333 Z M 13.229167,50.8 18.520833,45.508333 M 66.145833,50.8 71.4375,45.508333 M 66.145833,130.175 71.4375,124.88333 m -58.208333,5.29167 5.291666,-5.29167" />
+  </g>
+</svg>

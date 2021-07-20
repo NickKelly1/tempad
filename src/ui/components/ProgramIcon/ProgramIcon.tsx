@@ -1,13 +1,12 @@
 import clsx from "clsx";
-import React, { FC, MouseEventHandler, useCallback, useState } from "react";
+import React, { FC, } from "react";
 import { ProgramIconProps } from "./ProgramIcon.types";
 import { Button } from "../Button/Button";
 
 import styles from './ProgramIcon.module.scss';
 import { getSvgIcon } from "../../../util/svg-icon";
-import { useRefEffect } from "../../hooks/use-ref-effect";
-import { PlainRect, ProgramId } from "../../../store/state";
-import { useValueRef } from "../../hooks/use-value-ref";
+import { useDOMRect } from '@nkp/hooks';
+import { toPlainRect } from "../../../util/to-plain-rect";
 
 export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
   const {
@@ -23,31 +22,12 @@ export const ProgramIcon: FC<ProgramIconProps> = React.memo((props) => {
 
   const IconSvg = getSvgIcon(iconSvg)
 
-  const handleIconRectChange = useValueRef(onIconRectChange);
-
-  const [containerRef] = useRefEffect<HTMLDivElement>((containerNode) => {
-    const robserver = new ResizeObserver((resizes) => {
-      const changeHandler = handleIconRectChange.current;
-      if (!changeHandler) return;
-      resizes.forEach(resize => {
-        if (resize.target != containerNode) return;
-        const _rect = containerNode.getBoundingClientRect();
-        const rect: PlainRect = {
-          bottom: _rect.bottom,
-          height: _rect.height,
-          left: _rect.left,
-          right: _rect.right,
-          top: _rect.top,
-          width: _rect.width,
-          x: _rect.x,
-          y: _rect.y,
-        };
-        changeHandler(rect);
-      })
-    });
-    robserver.observe(containerNode);
-    return () => robserver.disconnect();
-  }, [handleIconRectChange]);
+  const containerRef = useDOMRect<HTMLDivElement>(
+    'body',
+    (rect) => {
+      onIconRectChange?.(toPlainRect(rect));
+    },
+  );
 
   return (
     <div

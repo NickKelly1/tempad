@@ -1,4 +1,6 @@
 .program_icon_container {
+  // font-size: 1.25em;
+
   button {
     height: 100%;
     width: 100%;
@@ -36,4 +38,10 @@
     height: 100%;
     width: 100%;
   }
+}
+
+.label {
+  // display: block;
+  width: 100%;
+  padding: 4px 0px;
 }

@@ -1,3 +1,3 @@
-import { Tempac } from '../src/ui/components/Tempac/Tempac'
+import { Tempad } from '../src/ui/components/Tempad/Tempad'
 
-export default Tempac;
+export default Tempad;

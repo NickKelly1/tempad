@@ -10,8 +10,11 @@ export enum ProgramId {
 export type OptionText = [before: string, hotkey: string, after: string];
 
 export enum ProgramStateId {
-  Uninitialised = 'ProgramState:Uninitialised',
-  Initialising = 'ProgramState:Initialising',
+  Unloading = 'ProgramState:Unloading',
+  Unloaded = 'ProgramState:Unloaded',
+  Booting = 'ProgramState:Booting',
+  Booted = 'ProgramState:Booted',
+  Starting = 'ProgramState:Starting',
   Ready = 'ProgramState:Ready',
 }
 
@@ -30,6 +33,12 @@ export enum OptionStateId {
 export enum ViewId {
   MainMenu = 'View:MainMenu',
   Program = 'View:Program',
+}
+
+export enum ProgramViewStateId {
+  Uninitialised = 'ProgramViewState:Uninitialised',
+  Loading = 'ProgramViewState:Loading',
+  Running = 'ProgramViewState:Running',
 }
 
 export interface PlainRect {
@@ -55,33 +64,9 @@ export interface MainMenuProgramOption {
 }
 
 
-export interface BaseExecutingProgram<StateId extends ProgramStateId = ProgramStateId> {
-  stateId: StateId;
-}
-
-export interface ExecutingProgramUninitialised
-  extends BaseExecutingProgram<ProgramStateId.Uninitialised> {
-  programId: ProgramId,
-}
-export interface ExecutingProgramInitialising
-  extends BaseExecutingProgram<ProgramStateId.Initialising> {
-  programId: ProgramId,
-  percentage: number,
-}
-export interface ExecutingProgramReady
-  extends BaseExecutingProgram<ProgramStateId.Ready> {
-  programId: ProgramId,
-}
-
-export type ProgramState =
-  | ExecutingProgramUninitialised
-  | ExecutingProgramInitialising
-  | ExecutingProgramReady
-
 export interface ProgramCommandInstance {
   active: boolean,
   disabled: boolean,
-  stateId: OptionStateId,
   opcode: Opcode,
   label: OptionText,
 }
@@ -104,13 +89,21 @@ export interface ProgramCommandContainer<ID extends ProgramId = ProgramId> {
   instances: ProgramCommandInstance[]
 }
 
+export interface ProgramViewState {
+  programId: ProgramId,
+  stateId: ProgramViewStateId,
+  percentage: number,
+  iconRect: PlainRect,
+}
+
+
 export interface State {
   core: {
-    programIds: ProgramId[],
     commands: {
-      byId: { [ID in ProgramId]: ProgramCommandContainer<ID> },
+      byProgramId: { [ID in ProgramId]: ProgramCommandContainer<ID> },
     },
     programs: {
+      ids: ProgramId[],
       byId: { [ID in ProgramId]: ProgramContainer<ID> }
     },
   },
@@ -118,7 +111,7 @@ export interface State {
     targetViewId: ViewId;
     fadingViewIds: ViewId[];
     latency: number,
-    tempac: {
+    tempad: {
       // all in px
       orientation: Orienation,
       height: number;
@@ -131,7 +124,6 @@ export interface State {
       viewId: ViewId.MainMenu;
       programs: {
         targetId: null | ProgramId,
-        executing: null | ProgramState,
         ids: ProgramId[],
         byId: { [K in ProgramId]?: MainMenuProgramOption },
       },
@@ -140,7 +132,7 @@ export interface State {
     },
     [ViewId.Program]: {
       viewId: ViewId.Program,
-      targetId: null | ProgramId;
+      state: null | ProgramViewState,
     },
   }
 };
@@ -148,7 +140,6 @@ export interface State {
 const optionCommandLabel: ProgramCommandInstance = {
   active: false,
   disabled: true,
-  stateId: OptionStateId.None,
   opcode: Opcode.ExecuteProgramOptions,
   label: ['', 'O', 'ptions'],
 };
@@ -156,7 +147,6 @@ const optionCommandLabel: ProgramCommandInstance = {
 const runProgramCommandLabel: ProgramCommandInstance = {
   active: false,
   disabled: true,
-  stateId: OptionStateId.None,
   opcode: Opcode.ExecuteRunProgram,
   label: ['', 'R', 'un Program'],
 }
@@ -164,7 +154,6 @@ const runProgramCommandLabel: ProgramCommandInstance = {
 const clearCacheCommandLabel: ProgramCommandInstance = {
   active: false,
   disabled: true,
-  stateId: OptionStateId.None,
   opcode: Opcode.ExecuteClearProgramCache,
   label: ['', 'C', 'lear Cache'],
 }
@@ -178,19 +167,19 @@ const defaultCommands = [
 
 export const initialState: State = {
   core: {
-    programIds: [
-      ProgramId.Timedoor,
-      ProgramId.Settings,
-      ProgramId.Directory,
-      ProgramId.MissMinutes,
-    ],
     programs: {
+      ids: [
+        ProgramId.Timedoor,
+        ProgramId.Settings,
+        ProgramId.Directory,
+        ProgramId.MissMinutes,
+      ],
       byId: {
         [ProgramId.Timedoor]: {
           programId: ProgramId.Timedoor,
           instance: {
             programId: ProgramId.Timedoor,
-            stateId: ProgramStateId.Uninitialised,
+            stateId: ProgramStateId.Unloaded,
             iconSvg: SvgIcon.TimeDoor,
             iconLabel: ['', '', 'Timedoor'],
           },
@@ -199,7 +188,7 @@ export const initialState: State = {
           programId: ProgramId.Settings,
           instance: {
             programId: ProgramId.Settings,
-            stateId: ProgramStateId.Uninitialised,
+            stateId: ProgramStateId.Unloaded,
             iconSvg: SvgIcon.Settings,
             iconLabel: ['', '', 'Settings'],
           },
@@ -208,7 +197,7 @@ export const initialState: State = {
           programId: ProgramId.Directory,
           instance: {
             programId: ProgramId.Directory,
-            stateId: ProgramStateId.Uninitialised,
+            stateId: ProgramStateId.Unloaded,
             iconSvg: SvgIcon.Directory,
             iconLabel: ['', '', 'Directory'],
           },
@@ -217,7 +206,7 @@ export const initialState: State = {
           programId: ProgramId.MissMinutes,
           instance: {
             programId: ProgramId.MissMinutes,
-            stateId: ProgramStateId.Uninitialised,
+            stateId: ProgramStateId.Unloaded,
             iconSvg: SvgIcon.MissMinutes,
             iconLabel: ['', '', 'Miss Minutes'],
           },
@@ -225,7 +214,7 @@ export const initialState: State = {
       },
     },
     commands: {
-      byId: {
+      byProgramId: {
         [ProgramId.Timedoor]: {
           programId: ProgramId.Timedoor,
           instances: defaultCommands,
@@ -253,7 +242,7 @@ export const initialState: State = {
     latency: 125,
     targetViewId: ViewId.MainMenu,
     fadingViewIds: [],
-    tempac: {
+    tempad: {
       orientation: Orienation.Portrait,
       height: 640,
       width: 360,
@@ -263,14 +252,13 @@ export const initialState: State = {
   views: {
     [ViewId.Program]: {
       viewId: ViewId.Program,
-      targetId: null,
+      state: null,
     },
     [ViewId.MainMenu]: {
       viewId: ViewId.MainMenu,
       defaultCommands: defaultCommands,
       defaultCommandsLabel: ['', 'S', 'elect'],
       programs: {
-        executing: null,
         targetId: null,
         ids: [
           ProgramId.Timedoor,
