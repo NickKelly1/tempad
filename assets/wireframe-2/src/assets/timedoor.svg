@@ -7,21 +7,21 @@
    xmlns="http://www.w3.org/2000/svg"
    id="svg8"
    version="1.1"
-   viewBox="0 0 84.666663 95.250003"
-   height="360"
-   width="320">
+   viewBox="0 0 135.46666 135.46667"
+   height="512"
+   width="512">
   <defs
      id="defs2">
     <filter
-       height="1.1012501"
-       y="-0.050625"
-       width="1.1472727"
-       x="-0.07363636"
-       id="filter912"
+       height="1.2123077"
+       y="-0.10615384"
+       width="1.276"
+       x="-0.13800001"
+       id="filter881"
        style="color-interpolation-filters:sRGB">
       <feGaussianBlur
-         id="feGaussianBlur914"
-         stdDeviation="1.7859375" />
+         id="feGaussianBlur883"
+         stdDeviation="4.8683333" />
     </filter>
   </defs>
   <metadata
@@ -37,15 +37,14 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(0,-40.216667)"
      id="layer5">
     <path
-       d="M 13.229166,130.175 V 50.800003 H 66.145831 V 130.175 Z m 5.291666,-5.29167 V 45.508336 H 71.4375 V 124.88333 Z M 13.229166,50.800003 18.520832,45.508336 M 66.145831,50.800003 71.4375,45.508336 M 66.145831,130.175 71.4375,124.88333 m -58.208334,5.29167 5.291666,-5.29167"
+       d="M 97.366666,122.76667 110.06667,114.3 M 97.366666,21.166662 110.06667,12.699995 m -84.666671,8.466667 12.7,-8.466667 m -12.7,110.066675 12.7,-8.46667 m 0,1e-5 V 12.699995 H 110.06667 V 114.3 Z m -12.7,8.46666 V 21.166662 H 97.366666 V 122.76667 Z"
        style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path846" />
+       id="path870" />
     <path
-       id="path894"
-       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter912)"
-       d="M 13.229167,130.175 V 50.8 h 52.916666 v 79.375 z m 5.291666,-5.29167 V 45.508333 H 71.4375 V 124.88333 Z M 13.229167,50.8 18.520833,45.508333 M 66.145833,50.8 71.4375,45.508333 M 66.145833,130.175 71.4375,124.88333 m -58.208333,5.29167 5.291666,-5.29167" />
+       id="path875"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter881)"
+       d="M 97.366666,122.76667 110.06667,114.3 M 97.366666,21.166661 110.06667,12.699994 m -84.666671,8.466667 12.7,-8.466667 m -12.7,110.066676 12.7,-8.46667 m 0,1e-5 V 12.699994 H 110.06667 V 114.3 Z m -12.7,8.46666 V 21.166661 H 97.366666 V 122.76667 Z" />
   </g>
 </svg>

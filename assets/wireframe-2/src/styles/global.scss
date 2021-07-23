@@ -5,6 +5,168 @@
 
 :root {
   --primary: #C87137;
+  // https://stackoverflow.com/questions/40010597/how-do-i-apply-opacity-to-a-css-color-variable
+  --primary_rgb: 200, 113, 55; // for use in rgba 
+
+  --primary-dark: #6d3d1eff;
+  --primary-dark-bg: #3d2211ff;
   --primary-shadow: #cd7e4aff;
+
   --primary-light: #ffb685ff;
+  --primary-light_rgb: 255, 182, 113;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: VCR OSD Mono, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* font-family: Press Start; */
+  background-color: black;
+  color: var(--primary);
+  // overflow: hidden;
+  // font-size: 1.5rem;
+}
+
+* { box-sizing: border-box; }
+:before { box-sizing: border-box; }
+:after { box-sizing: border-box; }
+
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+[data-svg] {
+  position: relative;
+  overflow: hidden;
+  svg {
+    position: absolute;
+    overflow: hidden;
+    max-height: 100%;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.typewriter {
+  width: 100%;
+  .typewriter__line {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    visibility: hidden;
+
+    // &.typewriter__line__show, .typewriter__line__show {
+    //   // duration to be supplied by css
+    //   // defaul tduration of 500ms
+    //   animation-duration: 500ms;
+    //   visibility: visible;
+    //   animation-name: type;
+    //   animation-timing-function: steps(60, end);
+    // }
+  }
+}
+
+.runnable {
+  &:not(:disabled) {
+    &:hover:not(.active) {
+      color: var(--primary-light);
+      path {
+        stroke: var(--primary-light) !important;
+        // https://stackoverflow.com/questions/8426882/css-selector-by-inline-style-attribute
+        &:not([style*="fill:none"]) {
+          fill: var(--primary-light) !important;
+        }
+      }
+    }
+
+    // &:active {
+    &.active {
+      // animation: 500ms glow infinite;
+      // svg {
+      // }
+      &.btn-text, .btn-text {
+        background-color: var(--primary-light);
+        color: black;
+        // padding: 2px 16px 2px 16px;
+      }
+      path {
+        // animation: 500ms glow infinite;
+        stroke: var(--primary-light) !important;
+        // https://stackoverflow.com/questions/8426882/css-selector-by-inline-style-attribute
+        &:not([style*="fill:none"]) {
+          fill: var(--primary-light) !important;
+        }
+      }
+    }
+  }
+}
+
+.command-menu {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: left;
+}
+
+.command-menu__header {
+  margin: 4px 0 4px 0;
+}
+
+.command-menu__list {
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  list-style: inside;
+  list-style-type: decimal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  > * {
+    padding: 2px 0 2px 0;
+    margin: 2px 0 2px 0;
+  }
+
+  button {
+    display: block;
+    text-align: left;
+    width: 100%;
+
+    li {
+      width: 100%;
+    }
+  }
+}
+
+.blink {
+  animation: blink 500ms infinite;
+}
+
+@keyframes fade {
+  to { opacity: 0; }
+}
+
+@keyframes type {
+  from { width: 0; };
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0;  }
 }

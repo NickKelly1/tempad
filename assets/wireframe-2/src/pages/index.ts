@@ -1,33 +1,38 @@
 import $ from 'jquery';
-import _ from 'lodash';
 import { ResizeListener } from '../utils/resize-listener';
 import { memo1 } from '../utils/memo1';
 import 'normalize.css';
 import './index.scss';
+import { Observable } from 'rxjs';
 
 import TimedoorSvg from '../assets/timedoor.svg';
 import DirectorySvg from '../assets/directory.svg';
-import SettingsSvg from '../assets/directory.svg';
-import MissMinutesSvg from '../assets/directory.svg';
-import { Observable } from '../utils/observable';
-import { MutationListener } from '../utils/mutation-listener';
-
-const ro = new ResizeObserver(() => {
-  //
-});
-ro.observe(document.querySelector('body')!);
+import SettingsSvg from '../assets/settings.svg';
+import MissMinutesSvg from '../assets/missminutes.svg';
+import SvgAppbarIcon1 from '../assets/appbar-1.svg';
+import SvgAppbarIcon2 from '../assets/appbar-2.svg';
+import SvgAppbarIcon3 from '../assets/appbar-3.svg';
+import SvgAppbarIcon4 from '../assets/appbar-4.svg';
+import SvgAppbarIcon5 from '../assets/appbar-5.svg';
+import SvgTvaLogo from '../assets/logo_tva.svg';
+import { MutationListener } from '../utils/mutation-listener2';
+import { timedoorPage } from './timedoor/timedoor';
+import { wait } from '../utils/wait';
+import { fade } from '../utils/css/fade.css';
 
 function getSvg(type: string | undefined): null | string {
   if (!type) return null;
   switch (type) {
-    case 'timedoor':
-      return TimedoorSvg;
-    case 'settings':
-      return SettingsSvg;
-    case 'directory':
-      return DirectorySvg;
-    case 'missminutes':
-      return MissMinutesSvg;
+    case 'timedoor': return TimedoorSvg;
+    case 'settings': return SettingsSvg;
+    case 'directory': return DirectorySvg;
+    case 'missminutes': return MissMinutesSvg;
+    case 'appbar-item-1': return SvgAppbarIcon1;
+    case 'appbar-item-2': return SvgAppbarIcon2;
+    case 'appbar-item-3': return SvgAppbarIcon3;
+    case 'appbar-item-4': return SvgAppbarIcon4;
+    case 'appbar-item-5': return SvgAppbarIcon5;
+    case 'tvalogo': return SvgTvaLogo;
   }
   return null;
 }
@@ -43,32 +48,27 @@ function domRectsEq(a: DOMRect, b: DOMRect): boolean {
     && a.width === b.width;
 }
 
-const $body: JQuery<HTMLBodyElement> = $('body')!;
-const $tempadContainer: JQuery<HTMLDivElement> = $('#tempad-container')!;
-const $tempad: JQuery<HTMLDivElement> = $('#tempad')!;
-
-// const insertions = new MutationListener('body');
-// (window as any).insertions = insertions;
-
-
 // ensure tempad stays within parent at correct aspect ratio
 const ar = 16 / 9;
-const resizes = new ResizeListener($body.get(0));
+const resizes = new ResizeListener('body');
 (window as any).resizes = resizes;
 resizes.on(() => {
-  const rectBody = $body.get(0).getBoundingClientRect();
-  const { height: bodyHeight, width: bodyWidth, } = rectBody;
+  const $container = $('#main-content');
+  const containerHeight = $container.height(); // height within padding
+  const containerWidth = $container.width(); // width withing padding
+  if (!containerHeight) return void console.warn('#main-content has no height');
+  if (!containerWidth) return void console.warn('#main-content has no width');
   let nextHeight: number
   let nextWidth: number;
   let portrait: boolean;
-  if (bodyHeight > bodyWidth) {
+  if (containerHeight > containerWidth) {
     portrait = true;
     // (portrait)
-    nextHeight = bodyHeight;
-    nextWidth = bodyHeight / ar;
-    if (nextWidth > bodyWidth) {
+    nextHeight = containerHeight;
+    nextWidth = containerHeight / ar;
+    if (nextWidth > containerWidth) {
       // shrink to width
-      nextWidth = bodyWidth;
+      nextWidth = containerWidth;
       nextHeight = ar * nextWidth;
     } else {
       // maximise height
@@ -76,11 +76,11 @@ resizes.on(() => {
   } else {
     portrait = false;
     // horizontal
-    nextWidth = bodyWidth;
-    nextHeight = bodyWidth / ar;
-    if (nextHeight > bodyHeight) {
+    nextWidth = containerWidth;
+    nextHeight = containerWidth / ar;
+    if (nextHeight > containerHeight) {
       // shrink to height
-      nextHeight = bodyHeight;
+      nextHeight = containerHeight;
       nextWidth = ar * nextHeight;
     } else {
       // maximise width
@@ -89,31 +89,162 @@ resizes.on(() => {
 
   let fontSize: number;
   if (portrait) {
-    $tempadContainer.addClass('portrait');
-    $tempadContainer.removeClass('landscape');
+    $('#tempad-container').addClass('portrait');
+    $('#tempad-container').removeClass('landscape');
     fontSize = 0.07 * nextWidth;
   } else {
-    $tempadContainer.removeClass('portrait');
-    $tempadContainer.addClass('landscape');
+    $('#tempad-container').removeClass('portrait');
+    $('#tempad-container').addClass('landscape');
     fontSize = 0.07 * nextHeight;
   }
 
-  $tempadContainer.css({
+  $('body').css({
+    fontSize: `${fontSize}px`,
+  });
+  $('#tempad-container').css({
     height: `${nextHeight}px`,
     width: `${nextWidth}px`,
-    fontSize: `${fontSize}px`,
   });
 });
 
-// $('#tempad').
+const mutations = new MutationListener('body');
+mutations.listen();
 
-$('[data-svg]').each((i, node) => {
-  $(node)
-    .html(getSvg(node.dataset.svg)!)
+function handleSvgLoad(element: HTMLElement) {
+  const type = element.dataset.svg;
+  console.log(handleSvgLoad.name, type);
+  const svgHtml = getSvg(type);
+  if (!svgHtml) return void console.warn(`svg: "${type}" not found`);
+  const ghost = document.createElement('div');
+  ghost.innerHTML = svgHtml;
+  const height = ghost.querySelector('svg')?.attributes.getNamedItem('height');
+  const width = ghost.querySelector('svg')?.attributes.getNamedItem('width');
+  if (!height) return void console.warn(`svg "${type}" has no height`);
+  if (!width) return void console.warn(`svg "${type}" has no width`);
+  const nHeight = Number(height.value).toFixed(0);
+  const nWidth = Number(width.value).toFixed(0);
+  // set the aspect ratio for every svg
+  const aspectRatio = `${nWidth} / ${nHeight}`;
+  $(element)
+    .html(svgHtml)
+    .css({ aspectRatio })
     .find('svg')
     .removeAttr('height')
-    .removeAttr('width');
-});
+    .removeAttr('width')
+  ;
+}
+mutations.onAdd$('[data-svg]').subscribe(handleSvgLoad);
+$('[data-svg]').each((i, element) => void handleSvgLoad(element));
+
+
+function setAbortableTimeout(
+  fn: () => any,
+  delay: number,
+  signal?: undefined | null | AbortSignal,
+): undefined | ReturnType<typeof setTimeout> {
+  if (signal) {
+    if (signal.aborted) return undefined;
+    signal.addEventListener('abort', (evt) => {
+      clearTimeout(to);
+    });
+  }
+  const to = setTimeout(() => {
+    if (signal?.aborted) clearTimeout(to);
+    else fn();
+  }, delay);
+  return to;
+}
+
+{
+  function handleIconsLoad() {
+    // on icons click
+    let prev: null | AbortController;
+    $('#icons')
+      .children()
+      .on('click', function onIconClick() {
+        const program = this.dataset.program;
+        if (!program) return console.warn('unknown program');
+        // not already active
+        if (this.classList.contains('active')) return;
+        // remove other actives
+        $('#icons').children().not(this).removeClass('active');
+        // now active
+        $(this).addClass('active');
+        console.log(`selected ${program}`);
+        // de-activate and re-activate commands
+        if (prev) prev?.abort();
+        const aborter = new AbortController();
+        prev = aborter;
+        let i = 0;
+        const wait = 100;
+        $('#action__list')
+          .children()
+          .prop('disabled', true)
+          .removeClass('active')
+          .off('click') // remove old click handlesr before adding new
+          .each(function () {
+            setAbortableTimeout(
+              () => { $(this).prop('disabled', false); },
+              (i += 1) * wait,
+              aborter.signal,
+            );
+            $(this).on('click', function onCommandClick() {
+              const command = this.dataset.command;
+              if (!command) return console.warn(`unknown program (${program}) command`);
+              // not already active
+              if (this.classList.contains('active')) return
+              // remove other actives
+              $('#action__list').children().not(this).removeClass('active');
+              console.log(`selected ${program}:${command}`);
+              // set active
+              this.classList.add('active');
+              handleRunProgramCommand(program, command);
+            });
+          })
+      });
+  }
+  mutations.onAdd$('#icons').forEach(handleIconsLoad);
+  handleIconsLoad();
+}
+
+const handlers: Record<string, undefined | Record<string, undefined | (() => void)>> = {
+  timedoor: {
+    options() { console.log('running timedoor:options')},
+    async runprogram() {
+      console.log('running timedoor program...');
+      const startingRect = $('.icon__btn.timedoor').get(0).getBoundingClientRect();
+      timedoorPage({ startingRect });
+      $('#mainmenu').css(fade(500));
+      await wait(500);
+      $('#mainmenu').remove();
+    },
+    clearcache() { console.log('running timedoor:clearcache'); },
+  },
+  missminutes: {
+    options() { console.log('running missminutes:options')},
+    runprogram() { console.log('running missminutes program...'); },
+    clearcache() { console.log('running missminutes:clearcache'); },
+  },
+  settings: {
+    options() { console.log('running settings:options')},
+    runprogram() { console.log('running settings program...'); },
+    clearcache() { console.log('running settings:clearcache'); },
+  },
+  directory: {
+    options() { console.log('running directory:options')},
+    runprogram() { console.log('running directory program...'); },
+    clearcache() { console.log('running directory:clearcache'); },
+  },
+};
+
+function handleRunProgramCommand(program: string, command: string) {
+  const programHandler = handlers[program];
+  if (!programHandler) return void console.warn(`unhandled program ${program}`);
+  const commandHandler = programHandler[command];
+  if (!commandHandler) return void console.warn(`unhandled command ${program}:${command}`);
+  commandHandler();
+}
+
 
 // console.log('wHat');
 

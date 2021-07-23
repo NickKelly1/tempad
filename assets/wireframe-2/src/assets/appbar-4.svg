@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 16.933333 16.933334"
+   height="64"
+   width="64">
+  <defs
+     id="defs2">
+    <filter
+       height="1.12"
+       y="-0.059999995"
+       width="1.12"
+       x="-0.060000006"
+       id="filter837"
+       style="color-interpolation-filters:sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur839"
+         stdDeviation="0.37041672" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-118.53332)"
+     id="layer5">
+    <path
+       id="rect815"
+       d="m 1.0583331,119.59166 v 6.35 h 3.1750002 v -1.05834 l 2.116667,2.11667 -2.116667,2.11667 v -1.05834 H 1.0583331 v 6.35 h 6.3500002 v -3.175 h -1.058333 l 2.116666,-2.11666 2.1166667,2.11666 H 9.5250003 v 3.175 H 15.875 v -6.35 H 12.7 v 1.05834 L 10.583333,126.99999 12.7,124.88332 v 1.05834 h 3.175 v -6.35 H 9.5250003 v 3.175 h 1.0583327 l -2.1166667,2.11666 -2.116666,-2.11666 h 1.058333 v -3.175 z m 7.4083332,6.35 1.058334,1.05833 -1.058334,1.05833 -1.058333,-1.05833 z"
+       style="opacity:1;fill:#c87137;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    <path
+       style="opacity:1;fill:#c87137;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers;filter:url(#filter837)"
+       d="m 1.0583328,119.59165 v 6.35 h 3.1750001 v -1.05833 l 2.116667,2.11667 -2.116667,2.11666 v -1.05833 H 1.0583328 v 6.35 h 6.3500001 v -3.175 h -1.058333 l 2.116666,-2.11667 2.1166681,2.11667 H 9.5249999 v 3.175 h 6.3500011 v -6.35 H 12.7 v 1.05833 L 10.583334,126.99999 12.7,124.88332 v 1.05833 h 3.175001 v -6.35 H 9.5249999 v 3.175 h 1.0583341 l -2.1166681,2.11667 -2.116666,-2.11667 h 1.058333 v -3.175 z m 7.4083331,6.35 1.058334,1.05834 -1.058334,1.05833 -1.058333,-1.05833 z"
+       id="path835" />
+  </g>
+</svg>

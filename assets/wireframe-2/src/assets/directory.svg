@@ -7,21 +7,21 @@
    xmlns="http://www.w3.org/2000/svg"
    id="svg8"
    version="1.1"
-   viewBox="0 0 84.666663 95.250003"
-   height="360"
-   width="320">
+   viewBox="0 0 135.46666 135.46667"
+   height="512"
+   width="512">
   <defs
      id="defs2">
     <filter
-       height="1.1125"
-       y="-0.056249999"
-       width="1.1285714"
-       x="-0.06428571"
-       id="filter864"
+       height="1.192"
+       y="-0.095999993"
+       width="1.192"
+       x="-0.096000001"
+       id="filter842"
        style="color-interpolation-filters:sRGB">
       <feGaussianBlur
-         id="feGaussianBlur866"
-         stdDeviation="1.984375" />
+         id="feGaussianBlur844"
+         stdDeviation="4.4026667" />
     </filter>
   </defs>
   <metadata
@@ -37,15 +37,14 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(0,-40.216667)"
      id="layer5">
     <path
-       d="M 5.2916592,58.7375 15.87499,130.175 h 63.5 L 68.79166,58.7375 Z M 79.37499,130.175 V 50.8 H 34.39583 L 29.10416,45.508333 H 18.52083 L 13.22916,50.8 v 7.9375"
-       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path834" />
+       d="M 122.76666,122.76667 V 21.166665 H 55.033335 l -8.466667,-8.466668 h -12.7 l -8.466666,8.466668 v 8.466666 m -12.7,0 12.7,93.133339 h 97.366658 l -12.7,-93.133339 z"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path827" />
     <path
-       id="path862"
-       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter864)"
-       d="M 5.2916687,58.737503 15.875,130.175 h 63.5 L 68.79167,58.737503 Z M 79.375,130.175 V 50.800003 H 34.39584 L 29.10417,45.508336 H 18.52084 l -5.29167,5.291667 v 7.9375" />
+       id="path832"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666656;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter842)"
+       d="M 122.76666,122.76667 V 21.166662 H 55.033334 l -8.466666,-8.466667 h -12.7 l -8.466667,8.466667 v 8.466666 m -12.7,0 12.7,93.133342 h 97.366659 l -12.7,-93.133342 z" />
   </g>
 </svg>

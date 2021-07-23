@@ -1,32 +1,16 @@
 @import '../styles/global.scss';
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: VCR OSD Mono, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* font-family: Press Start; */
-  background-color: black;
-  color: var(--primary);
-  overflow: hidden;
-  // font-size: 1.5rem;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 #main-content {
   height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 32px;
 }
 
 #tempad-container {
-  padding: 16px;
+  //
 }
 
 #tempad {
@@ -34,6 +18,7 @@ body {
   border: 8px solid var(--primary);
   height: 100%;
   width: 100%;
+  // padding-top: 1.5rem;
 }
 
 #background {
@@ -48,61 +33,175 @@ body {
   pointer-events: none;
 }
 
-
-#layout {
-  display: flex;
+#tempad-content {
+  position: relative;
+  padding: 16px;
   height: 100%;
   width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
-.landscape {
-  #layout {
-    flex-direction: row;
+#page-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#mainmenu {
+  display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  display: grid;
+  grid-template-areas:
+    "appbar   icons    actions  actions  actions"
+    "appbar   icons    .        tvalogo  tvalogo"
+    "datebar  datebar  datebar  tvalogo  tvalogo"
+  ;
+
+  grid-template-rows:
+    70%
+    20% // tva logo bottom
+    10% // datebar bottom
+
+  ;
+  grid-template-columns:
+    5% // (appbar & datebar) start
+        47.5% // icons (start & end)
+            7.5% // actions start
+                10% // (datebar ends) & (logo starts)
+                    30% // (logo & actions) end
+  ;
+
+  #appbar { grid-area: appbar; }
+  #datebar { grid-area: datebar; }
+  #icons { grid-area: icons; }
+  #actions { grid-area: actions; }
+  #tvalogo { grid-area: tvalogo; }
+}
+
+#datebar {
+  font-size: 0.5em;
+  opacity: 0.5;
+  display: flex;
+  justify-content: space-between; // left
+  align-items: flex-end; // bottom
+  // gap: 4rem;
+  padding-right: 16px;
+}
+
+#appbar {
+  #appbar__list {
+    padding-left: 0;
+    margin-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding-top: 50px;
+  }
+
+  .appbar__btn {
+    display: inline-block;
+    width: 100%;
   }
 }
 
 #icons {
-  aspect-ratio: 1 / 1;
+  margin: auto;
   display: grid;
   grid-gap: 16px;
   padding: 16px;
+  padding-top: 0;
   grid-template-areas:
-    "timedoor settings"
-    "directory missminutes";
+    "timedoor missminutes"
+    "settings directory";
   grid-template-columns: 1fr 1fr;
-  grid-template-rows:
-    1fr
-    1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-auto-rows: 1fr 1fr;
+  grid-auto-columns: 1fr 1fr;
 
-  .icon {
+  ~ .portrait {
+    width: 100%;
+  }
+
+  ~ .landscape {
+    height: 100%;
+  }
+
+  .icon__btn {
     &.timedoor { grid-area: timedoor; }
+    &.missminutes { grid-area: missminutes; }
     &.settings { grid-area: settings; }
     &.directory { grid-area: directory; }
-    &.missminutes { grid-area: missminutes; }
   }
 }
 
-.portrait #icons {
-  width: 100%;
-}
+.icon__btn {
+  display: block;
+  font-size: 0.6em;
+  text-align: center;
 
-.landscape #icons {
-  height: 100%;
-}
-
-[data-svg] {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  svg {
-    position: absolute;
-    max-height: 100%;
-    max-width: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  label {
+    white-space: nowrap;
+    width: 100%;
+    padding: 0 2px;
   }
 }
+
+#actions {}
+
+
+// #timedoor-page__actions {
+//   font-weight: bold;
+//   display: flex;
+//   justify-content: space-around;
+//   align-items: flex-start;
+//   flex-direction: column;
+//   text-align: left;
+//   #timedoor-page__actions__list {
+//     //
+//   }
+//   // #actions {
+//   //   font-weight: bold;
+//   //   display: flex;
+//   //   justify-content: space-around;
+//   //   align-items: flex-start;
+//   //   flex-direction: column;
+//   //   text-align: left;
+//   //   #action__list {
+//   //     padding: 0;
+//   //     margin: 0;
+//   //     // margin: auto;
+//   //     list-style: inside;
+//   //     list-style-type: decimal;
+//   //     display: flex;
+//   //     flex-direction: column;
+//   //     justify-content: space-between;
+
+//   //     button {
+//   //       display: block;
+//   //       padding: 8px 2px 8px 2px;
+//   //       // margin: 4px 0;
+//   //       text-align: left;
+//   //       width: 100%;
+
+//   //       li {
+//   //         width: 100%;
+//   //       }
+//   //     }
+//   //   }
+//   // }
+// }

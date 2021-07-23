@@ -1,0 +1,60 @@
+#timedoor-page {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  grid-template-rows: 1fr;
+  grid-template-areas: "icon text";
+  justify-items: center;
+  align-items: center;
+
+  #timedoor-page__icon { grid-area: icon; }
+  #timedoor-page__text { grid-area: text; }
+}
+
+#timedoor-page__icon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.timedoor-page__icon__glow {
+  background: radial-gradient(circle at center, rgba(var(--primary-light_rgb), 0.25), rgba(var(--primary-light_rgb), 0.0))
+}
+
+#timedoor-page__text-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+}
+
+#timedoor-page__text {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#timedoor-page__text__loading {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+#timedoor-page__text__menu {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  font-weight: bold;
+}
+
+#timedoor-page__actions__list {
+  //
+}
