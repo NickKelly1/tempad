@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="320"
-   height="360"
-   viewBox="0 0 84.666663 95.250003"
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933334"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="icon-template.svg">
+   sodipodi:docname="_appbar-template.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="115.14014"
-     inkscape:cy="179.66188"
+     inkscape:zoom="7.919596"
+     inkscape:cx="13.3312"
+     inkscape:cy="26.116177"
      inkscape:document-units="px"
      inkscape:current-layer="layer5"
      showgrid="true"
@@ -42,8 +42,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid940"
-       spacingx="2.6458333"
-       spacingy="2.6458333"
+       spacingx="1.0583333"
+       spacingy="1.0583333"
        empspacing="4" />
   </sodipodi:namedview>
   <metadata
@@ -63,19 +63,19 @@
      id="layer4"
      inkscape:label="Background"
      style="display:inline"
-     transform="translate(0,-40.216667)"
+     transform="translate(0,-118.53332)"
      sodipodi:insensitive="true">
     <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.35079128;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.06614583;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect895"
-       width="84.666672"
-       height="95.249992"
+       width="16.933334"
+       height="16.933332"
        x="0"
-       y="40.216663" />
+       y="118.53332" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="Content"
-     transform="translate(0,-40.216667)" />
+     transform="translate(0,-118.53332)" />
 </svg>

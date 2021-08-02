@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="512"
+   viewBox="0 0 135.46666 135.46667"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="program_timedoor.svg">
+  <defs
+     id="defs2">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter881"
+       x="-0.13800001"
+       width="1.276"
+       y="-0.10615384"
+       height="1.2123077">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="4.8683333"
+         id="feGaussianBlur883" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#595959"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="244.28353"
+     inkscape:cy="250.83699"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer5"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     units="px"
+     inkscape:snap-grids="true"
+     inkscape:snap-page="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid940"
+       spacingx="4.2333333"
+       spacingy="4.2333333"
+       empspacing="4"
+       originx="0.026458333" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Background"
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect895"
+       width="135.46666"
+       height="135.46666"
+       x="0"
+       y="-1.3322676e-14" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Content">
+    <path
+       id="path870"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666664;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 97.393124,122.76667 110.09312,114.3 M 97.393124,21.166666 110.09312,12.699999 m -84.666662,8.466667 12.7,-8.466667 m -12.7,110.066671 12.7,-8.46667 m 0,1e-5 V 12.699999 H 110.09312 V 114.3 Z m -12.7,8.46666 V 21.166666 H 97.393124 V 122.76667 Z" />
+    <path
+       d="M -55.006875,122.76667 -42.306879,114.3 m -12.699996,-93.133334 12.699996,-8.466667 m -84.666661,8.466667 12.7,-8.466667 m -12.7,110.066671 12.7,-8.46667 m 0,1e-5 V 12.699999 h 71.966661 V 114.3 Z m -12.7,8.46666 V 21.166666 h 71.966665 V 122.76667 Z"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666664;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path873"
+       inkscape:connector-curvature="0" />
+    <path
+       d="M 97.393124,122.76667 110.09312,114.3 M 97.393124,21.166666 110.09312,12.699999 m -84.666662,8.466667 12.7,-8.466667 m -12.7,110.066671 12.7,-8.46667 m 0,1e-5 V 12.699999 H 110.09312 V 114.3 Z m -12.7,8.46666 V 21.166666 H 97.393124 V 122.76667 Z"
+       style="fill:none;stroke:#c87137;stroke-width:2.11666664;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter881)"
+       id="path875" />
+  </g>
+</svg>
