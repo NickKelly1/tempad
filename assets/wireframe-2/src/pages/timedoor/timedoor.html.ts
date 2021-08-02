@@ -2,53 +2,47 @@ import { html } from "../../utils/html";
 
 /* html */
 export const page = html`
-<div id="timedoor-page" class="page">
-  <div id="timedoor-page__icon"></div>
-  <div id="timedoor-page__text" class="typewriter">
+<div id="tp" class="page">
+  <section class="sicon"></section>
+  <section class="stxt tw">
     ${'text'}
-  </div>
+  </section>
 </div>
 `
 
+// tp__glow is modified in js
+// sizes up to whole body
 export const icon__glow = html`
-<div
-  class="timedoor-page__icon__glow"
-  style="
-    position: absolute;
-    height: 0;
-    width: 0;
-  "
->
-</div>
+<div class="tp__glow" style="height: 0; width: 0"> </div>
 `;
 
 export const text__loading = html`
-<div id="timedoor-page__text__loading" class="typewriter">
-  <div class="typewriter__line">
+<div class="tw stxt__loading">
+  <div class="tw__l">
     ////////
   </div>
-  <div class="typewriter__line">
+  <div class="tw__l">
     BUILDING TIMEDOOR
   </div>
-  <div class="typewriter__line">
+  <div class="tw__l">
     PLEASE WAIT<span class="blink">...</span>
   </div>
 </div>
 `;
 
 export const text__menu = html`
-<div id="timedoor-page__text__menu" class="typewriter">
-  <div class="command-menu">
-    <div class="typewriter__line command-menu__header">
+<div class="tw stxt__menu">
+  <div class="cm">
+    <div class="tw__l cm__header">
       <u>T</u>IMEDOOR ACTIVE<span class="blink">...</span>
     </div>
-    <div id="timedoor-page__menu__actions">
-      <ul id="timedoor-page__actions__list" class="command-menu__list">
-        <button id="timedoor-page__btn-expand" disabled class="typewriter__line runnable">
-          <li>EXPAND</li>
+    <div>
+      <ul class="cm__list">
+        <button disabled class="tw__l btn-expand runnable">
+          <li class="btn__text"><u>E</u>XPAND</li>
         </button>
-        <button id="timedoor-page__btn-close" disabled class="typewriter__line runnable">
-          <li>CLOSE</li>
+        <button disabled class="tw__l btn-close runnable">
+          <li class="btn__text"><u>C</u>LOSE</li>
         </button>
       </ul>
     </div>
@@ -70,6 +64,6 @@ export const movingIcon = html`
 >
   <div data-svg="timedoor">
   </div>
-  <label class="btn-text">TIMEDOOR</label>
+  <label class="btn__text">TIMEDOOR</label>
 </div>
 `;

@@ -5,20 +5,17 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:clean": "rimraf dist",
-    "build:prep": "npm run build:clean && tsc --project webpack/tsconfig.json",
-    "build:run": "webpack --config webpack/config.js",
-    "build:compile:dev": "webpack --config webpack/config.js --env mode=development --progress --color",
-    "build:compile:prod": "webpack --config webpack/config.js --env mode=production --progress --color",
-    "build:dev": "npm run build:prep && npm run build:compile:dev",
-    "build:prod": "npm run build:prep && npm run build:compile:prod",
-    "dev:serve": "webpack serve --config webpack/config.js --env mode=development --color",
-    "dev": "npm run build:prep && npm run dev:serve"
+    "clean": "rimraf dist",
+    "build:prep": "npm run clean && tsc --project webpack/tsconfig.json",
+    "build:dev": "npm run build:prep && webpack --config webpack/config.js --env mode=development --progress --color",
+    "build:prod": "npm run build:prep && webpack --config webpack/config.js --env mode=production --progress --color",
+    "dev": "npm run build:prep && webpack serve --config webpack/config.js --env mode=development --color"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nkp/error": "^0.0.2",
     "jquery": "^3.6.0",
     "rxjs": "^7.2.0"
   },

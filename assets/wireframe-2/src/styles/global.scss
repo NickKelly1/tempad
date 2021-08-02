@@ -1,3 +1,5 @@
+@use './animations';
+
 @font-face {
   font-family: 'VCR OSD Mono';
   src: url('../assets/VCR_OSD_MONO_1.001.ttf') format('truetype');
@@ -24,7 +26,7 @@ body {
   /* font-family: Press Start; */
   background-color: black;
   color: var(--primary);
-  // overflow: hidden;
+  overflow: hidden;
   // font-size: 1.5rem;
 }
 
@@ -61,9 +63,11 @@ button {
   }
 }
 
-.typewriter {
+// tw
+.tw {
   width: 100%;
-  .typewriter__line {
+  // type-writer line
+  .tw__l {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -81,8 +85,8 @@ button {
 }
 
 .runnable {
-  &:not(:disabled) {
-    &:hover:not(.active) {
+  // &:not(:disabled) {
+    &:hover::not(:disabled):not(.active) {
       color: var(--primary-light);
       path {
         stroke: var(--primary-light) !important;
@@ -93,12 +97,8 @@ button {
       }
     }
 
-    // &:active {
     &.active {
-      // animation: 500ms glow infinite;
-      // svg {
-      // }
-      &.btn-text, .btn-text {
+      &.btn__text, .btn__text {
         background-color: var(--primary-light);
         color: black;
         // padding: 2px 16px 2px 16px;
@@ -112,10 +112,10 @@ button {
         }
       }
     }
-  }
+  // }
 }
 
-.command-menu {
+.cm {
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -124,11 +124,11 @@ button {
   text-align: left;
 }
 
-.command-menu__header {
+.cm__header {
   margin: 4px 0 4px 0;
 }
 
-.command-menu__list {
+.cm__list {
   font-weight: bold;
   padding: 0;
   margin: 0;
@@ -152,21 +152,4 @@ button {
       width: 100%;
     }
   }
-}
-
-.blink {
-  animation: blink 500ms infinite;
-}
-
-@keyframes fade {
-  to { opacity: 0; }
-}
-
-@keyframes type {
-  from { width: 0; };
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0;  }
 }

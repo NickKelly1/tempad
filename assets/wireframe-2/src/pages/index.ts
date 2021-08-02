@@ -16,9 +16,9 @@ import SvgAppbarIcon4 from '../assets/appbar-4.svg';
 import SvgAppbarIcon5 from '../assets/appbar-5.svg';
 import SvgTvaLogo from '../assets/logo_tva.svg';
 import { MutationListener } from '../utils/mutation-listener2';
-import { timedoorPage } from './timedoor/timedoor';
-import { wait } from '../utils/wait';
-import { fade } from '../utils/css/fade.css';
+import { pageController } from './page-controller';
+import { mainMenuPage } from './mainmenu/mainmenu.page';
+import { AnimationType } from '../utils/animate';
 
 function getSvg(type: string | undefined): null | string {
   if (!type) return null;
@@ -61,31 +61,32 @@ resizes.on(() => {
   let nextHeight: number
   let nextWidth: number;
   let portrait: boolean;
-  if (containerHeight > containerWidth) {
-    portrait = true;
-    // (portrait)
+  // always landscape
+  // if (containerHeight > containerWidth) {
+  //   portrait = true;
+  //   // (portrait)
+  //   nextHeight = containerHeight;
+  //   nextWidth = containerHeight / ar;
+  //   if (nextWidth > containerWidth) {
+  //     // shrink to width
+  //     nextWidth = containerWidth;
+  //     nextHeight = ar * nextWidth;
+  //   } else {
+  //     // maximise height
+  //   }
+  // } else {
+  portrait = false;
+  // landscape
+  nextWidth = containerWidth;
+  nextHeight = containerWidth / ar;
+  if (nextHeight > containerHeight) {
+    // shrink to height
     nextHeight = containerHeight;
-    nextWidth = containerHeight / ar;
-    if (nextWidth > containerWidth) {
-      // shrink to width
-      nextWidth = containerWidth;
-      nextHeight = ar * nextWidth;
-    } else {
-      // maximise height
-    }
+    nextWidth = ar * nextHeight;
   } else {
-    portrait = false;
-    // horizontal
-    nextWidth = containerWidth;
-    nextHeight = containerWidth / ar;
-    if (nextHeight > containerHeight) {
-      // shrink to height
-      nextHeight = containerHeight;
-      nextWidth = ar * nextHeight;
-    } else {
-      // maximise width
-    }
+    // maximise width
   }
+  // }
 
   let fontSize: number;
   if (portrait) {
@@ -133,136 +134,30 @@ function handleSvgLoad(element: HTMLElement) {
     .removeAttr('width')
   ;
 }
+
+// inject svg data
 mutations.onAdd$('[data-svg]').subscribe(handleSvgLoad);
 $('[data-svg]').each((i, element) => void handleSvgLoad(element));
+new MutationObserver((records) => {
+  records
+    .flatMap(record => Array.from(record.addedNodes)
+    .filter((node): node is HTMLElement => (node instanceof HTMLElement))
+    .forEach(element => {
+      element
+        .querySelectorAll('[data-svg]')
+        .forEach((element) => {
+          handleSvgLoad(element as HTMLElement);
+        })
+    }))
+}).observe(document.querySelector('body')!, {
+  childList: true,
+  subtree: true,
+});
 
-
-function setAbortableTimeout(
-  fn: () => any,
-  delay: number,
-  signal?: undefined | null | AbortSignal,
-): undefined | ReturnType<typeof setTimeout> {
-  if (signal) {
-    if (signal.aborted) return undefined;
-    signal.addEventListener('abort', (evt) => {
-      clearTimeout(to);
-    });
-  }
-  const to = setTimeout(() => {
-    if (signal?.aborted) clearTimeout(to);
-    else fn();
-  }, delay);
-  return to;
-}
-
-{
-  function handleIconsLoad() {
-    // on icons click
-    let prev: null | AbortController;
-    $('#icons')
-      .children()
-      .on('click', function onIconClick() {
-        const program = this.dataset.program;
-        if (!program) return console.warn('unknown program');
-        // not already active
-        if (this.classList.contains('active')) return;
-        // remove other actives
-        $('#icons').children().not(this).removeClass('active');
-        // now active
-        $(this).addClass('active');
-        console.log(`selected ${program}`);
-        // de-activate and re-activate commands
-        if (prev) prev?.abort();
-        const aborter = new AbortController();
-        prev = aborter;
-        let i = 0;
-        const wait = 100;
-        $('#action__list')
-          .children()
-          .prop('disabled', true)
-          .removeClass('active')
-          .off('click') // remove old click handlesr before adding new
-          .each(function () {
-            setAbortableTimeout(
-              () => { $(this).prop('disabled', false); },
-              (i += 1) * wait,
-              aborter.signal,
-            );
-            $(this).on('click', function onCommandClick() {
-              const command = this.dataset.command;
-              if (!command) return console.warn(`unknown program (${program}) command`);
-              // not already active
-              if (this.classList.contains('active')) return
-              // remove other actives
-              $('#action__list').children().not(this).removeClass('active');
-              console.log(`selected ${program}:${command}`);
-              // set active
-              this.classList.add('active');
-              handleRunProgramCommand(program, command);
-            });
-          })
-      });
-  }
-  mutations.onAdd$('#icons').forEach(handleIconsLoad);
-  handleIconsLoad();
-}
-
-const handlers: Record<string, undefined | Record<string, undefined | (() => void)>> = {
-  timedoor: {
-    options() { console.log('running timedoor:options')},
-    async runprogram() {
-      console.log('running timedoor program...');
-      const startingRect = $('.icon__btn.timedoor').get(0).getBoundingClientRect();
-      timedoorPage({ startingRect });
-      $('#mainmenu').css(fade(500));
-      await wait(500);
-      $('#mainmenu').remove();
-    },
-    clearcache() { console.log('running timedoor:clearcache'); },
+// start by opening the main menu page
+pageController.open(mainMenuPage, {
+  animation: {
+    type: AnimationType.SwitchOn,
+    duration: 500,
   },
-  missminutes: {
-    options() { console.log('running missminutes:options')},
-    runprogram() { console.log('running missminutes program...'); },
-    clearcache() { console.log('running missminutes:clearcache'); },
-  },
-  settings: {
-    options() { console.log('running settings:options')},
-    runprogram() { console.log('running settings program...'); },
-    clearcache() { console.log('running settings:clearcache'); },
-  },
-  directory: {
-    options() { console.log('running directory:options')},
-    runprogram() { console.log('running directory program...'); },
-    clearcache() { console.log('running directory:clearcache'); },
-  },
-};
-
-function handleRunProgramCommand(program: string, command: string) {
-  const programHandler = handlers[program];
-  if (!programHandler) return void console.warn(`unhandled program ${program}`);
-  const commandHandler = programHandler[command];
-  if (!commandHandler) return void console.warn(`unhandled command ${program}:${command}`);
-  commandHandler();
-}
-
-
-// console.log('wHat');
-
-
-// function component() {
-//   const element = document.createElement('div');
-
-//   hello();
-
-//   // Lodash, currently included via a script, is required for this line to work
-//   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-//   return element;
-// }
-
-// document.body.appendChild(component());
-
-// console.log('hi');
-// console.log('hi');
-// console.log('hi');
-// console.log('hi');
+});
